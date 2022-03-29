@@ -1,5 +1,5 @@
 from .views import _cart_id, _wishcart_id
-from django.db.models import Cart,Cart_Item,Category
+from adminapp.models import Cart,Cart_Item,Category,Wishlist
 
 
 def counter(request):
@@ -23,6 +23,12 @@ def counter(request):
             cart_count = 0
     return dict(cart_count=cart_count)
 
+def wish_list(request):
+    if request.user.is_authenticated:
+        wish_items = Wishlist.objects.filter(user = request.user).count()
+        return{'wish_items': wish_items}
+    else:
+        return{'wish_items': 0}
 
 
 def menu_links(request):

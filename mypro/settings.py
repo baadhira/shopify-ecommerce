@@ -69,6 +69,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 # 'category.context_processors.menu_links'
+                'userapp.context_processors.counter',
+                'userapp.context_processors.wish_list',
             ],
         },
     },
@@ -147,3 +149,9 @@ MEDIA_ROOT = BASE_DIR/ 'media/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'baadhiraabdulla5@gmail.com'
+EMAIL_HOST_PASSWORD = 'hudha@123'

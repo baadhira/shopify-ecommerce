@@ -1,7 +1,7 @@
 {% extends 'baseuser.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-
+{% load static %}
 
 
 <link rel="stylesheet" href="https://unpkg.com/xzoom/dist/xzoom.css">
@@ -152,8 +152,8 @@
                         <div class="info-body custom-responsive-margin">
                             <h4>Details</h4>
                             <p>{{obj.description}}</p>
-                            <!-- <h4>Features</h4> -->
-                            <!-- <ul class="features">
+                            <h4>Features</h4>
+                            <ul class="features">
                                 <li>Capture 4K30 Video and 12MP Photos</li>
                                 <li>Game-Style Controller with
                                     Touchscreen</li>
@@ -161,7 +161,7 @@
                                 <li>Full Control of HERO6 Black</li>
                                 <li>Use App for Dedicated Camera
                                     Operation</li>
-                            </ul> -->
+                            </ul>
                         </div>
                     </div>
                     <div class="col-lg-6 col-12">
@@ -186,7 +186,7 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="row">
+            <div class="row">
                 <div class="col-lg-4 col-12">
                     <div class="single-block give-review">
                         <h4>4.5 (Overall)</h4>
@@ -247,7 +247,7 @@
 
                             <div class="single-review">
                                 <img
-                                    src="assets/images/blog/comment1.jpg"
+                                    src="{% static 'assets/images/blog/comment1.jpg' %}"
                                     alt="#">
                                 <div class="review-info">
                                     <h4>Awesome quality for the price
@@ -333,13 +333,13 @@
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </section>
 
 
-<!-- <div class="modal fade review-modal" id="exampleModal" tabindex="-1"
+<div class="modal fade review-modal" id="exampleModal" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -399,7 +399,7 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
   <script src="https://unpkg.com/xzoom/dist/xzoom.min.js"></script>

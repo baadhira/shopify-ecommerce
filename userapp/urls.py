@@ -25,6 +25,7 @@ urlpatterns = [
     path('remove_cart/<int:product_id>/<int:cart_item_id>/',views.remove_cart, name='remove_cart'),
     path('codorder/<int:order_number>',views.codorder,name='codorder'),
     path('paypalpayment/',views.paypalpayment,name='paypalpayment'),
+    path('filterview/<str:id>',views.filterview,name='FilterView'),
     path('razorpayment/<int:order_number>',views.razorpayment,name='razorpayment'),
     path('userorderlist/',views.userorderlist,name='userorderlist'),
     path('razorpayment/',views.razorpayment,name='razorpayment'),
@@ -34,6 +35,11 @@ urlpatterns = [
     path('ClaimCoupon/',views.ClaimCoupon,name='ClaimCoupon'),
     path('verifyCoupon/',views.verifyCoupon,name='verifyCoupon'),
     path('userproductgrid/',views.userproductgrid,name='userproductgrid'),
+    path('contacts/',views.contacts,name='contacts'),
+    path('hightolow/',views.hightolow,name='hightolow'),
+    path('lowtohigh/',views.lowtohigh,name='lowtohigh'),
+
+   
     path('user_order_return/',views.user_order_return,name='user_order_return'),
     path('wishlist/',views.wishlist,name='wishlist'),
     path('remove_wish_item/',views.remove_wish_item, name='remove_wish_item'),

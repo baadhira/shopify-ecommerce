@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-lg-3 col-12">
           <div class="product-sidebar">
-            <div class="single-widget search">
+            <!-- <div class="single-widget search">
 
               <h3>Search Product</h3>
               <form method="GET" action="{% url 'search' %}">
@@ -16,39 +16,17 @@
                   <i class="lni lni-search-alt"></i>
                 </button>
               </form>
-            </div>
+            </div> -->
 
             <div class="single-widget">
               <h3>All Categories</h3>
               <ul class="list">
-                <li>
-                  <a href="product-grids.html">Computers & Accessories </a
-                  ><span>(1138)</span>
-                </li>
-                <li>
-                  <a href="product-grids.html">Smartphones & Tablets</a
-                  ><span>(2356)</span>
-                </li>
-                <li>
-                  <a href="product-grids.html">TV, Video & Audio</a
-                  ><span>(420)</span>
-                </li>
-                <li>
-                  <a href="product-grids.html">Cameras, Photo & Video</a
-                  ><span>(874)</span>
-                </li>
-                <li>
-                  <a href="product-grids.html">Headphones</a
-                  ><span>(1239)</span>
-                </li>
-                <li>
-                  <a href="product-grids.html">Wearable Electronics</a
-                  ><span>(340)</span>
-                </li>
-                <li>
-                  <a href="product-grids.html">Printers & Ink</a
-                  ><span>(512)</span>
-                </li>
+                {% for category in catogeries %}
+                            
+                <li><a href="{% url 'FilterView' category.id %}" value="{{category.id}}">{{category.category_name}}</a><span>({{category.numpro}})</span></li>
+                {% endfor %}
+            
+              
               </ul>
             </div>
 
@@ -218,13 +196,11 @@
                 <div class="col-lg-7 col-md-8 col-12">
                   <div class="product-sorting">
                     <label for="sorting">Sort by:</label>
-                    <select class="form-control" id="sorting">
-                      <option>Popularity</option>
-                      <option>Low - High Price</option>
-                      <option>High - Low Price</option>
-                      <option>Average Rating</option>
-                      <option>A - Z Order</option>
-                      <option>Z - A Order</option>
+                    <select onchange="location = this.value;" class="form-control" id="sorting">
+                      <option value="{% url 'userproductgrid' %}">Normal</option>
+                      <option value="{% url 'lowtohigh' %}">Low - High Price</option>
+                      <option value="{% url 'hightolow' %}">High - Low Price</option>
+                      
                     </select>
                     <h3 class="total-show-product">
                       Showing: <span>1 - 12 items</span>
@@ -233,32 +209,7 @@
                 </div>
                 <div class="col-lg-5 col-md-4 col-12">
                   <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                      <button
-                        class="nav-link active"
-                        id="nav-grid-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#nav-grid"
-                        type="button"
-                        role="tab"
-                        aria-controls="nav-grid"
-                        aria-selected="true"
-                      >
-                        <i class="lni lni-grid-alt"></i>
-                      </button>
-                      <button
-                        class="nav-link"
-                        id="nav-list-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#nav-list"
-                        type="button"
-                        role="tab"
-                        aria-controls="nav-list"
-                        aria-selected="false"
-                      >
-                        <i class="lni lni-list"></i>
-                      </button>
-                    </div>
+                  
                   </nav>
                 </div>
               </div>

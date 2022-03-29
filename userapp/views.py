@@ -28,7 +28,7 @@ from django.db.models import Q
 from django.conf import settings
 ''' logger module'''
 import logging
-
+from django.core.mail import BadHeaderError,send_mail
 from django.shortcuts import render
 import razorpay
 from django.conf import settings
@@ -43,6 +43,7 @@ def userpage(request):
     now=datetime.now()
     products = Product.objects.all()
     banners = BannerUpdate.objects.filter(valid_from__lte=now, valid_to__gte=now, is_active = True)
+    catogeries = Category.objects.all().annotate(numpro=Count('product'))
     for product in products:
         p_offer = 0
         c_offer=0
@@ -80,7 +81,8 @@ def userpage(request):
         'products':products,
         'cartitem' :cartitem,
         'wishlist' : wishlist,
-        'banners' : banners
+        'banners' : banners,
+        'catogeries':catogeries,
     }
     
     return render(request,'userindex.html',context)
@@ -89,13 +91,17 @@ from django.core.paginator import EmptyPage , PageNotAnInteger , Paginator
 
 def userproductgrid(request):
     product = Product.objects.all()
+    catogeries = Category.objects.all().annotate(numpro=Count('product'))
+
     paginator = Paginator(product, 4)
     page = request.GET.get('page')
     paged_products = paginator.get_page(page)
     context = {
-        'product' : paged_products
+        'product' : paged_products,
+        'catogeries' : catogeries
     }
     return render(request,'product-grids.html',context)
+
 
 
 def usersignup(request):
@@ -232,9 +238,52 @@ def _cart_id(request):
     if not cart:
         cart = request.session.create()
     return cart
+from django.db.models import Count
+def filterview(request,id):
+    print("enteredddddddd filter view....................")
+    category=Category.objects.all()
+    catogeries = Category.objects.all().annotate(numpro=Count('product'))
+    product = Product.objects.filter(category=id)
+    
+
+    context = {'product':product,'catogeries':catogeries}
+    return render(request, "product-grids.html",context)
 
 
+def contacts(request):
+    if request.method == "POST":
+        name=request.POST["name"]
+        subject=request.POST["subject"]
+        email=request.POST["email"]
+        phone=request.POST["phone"]
+        
+        message=request.POST["message"]
+        
+        
 
+        if name and message and email:
+            try:
+                send_mail(name, message, email, ['baadhiraabdulla5@gmail.com'])
+            except BadHeaderError:
+                messages.error(request,'Invalid header found')
+                return redirect('contacts')
+            messages.success(request,"Form submitted successfully")
+            return redirect('contacts')
+        else:
+        # In reality we'd use a form class
+        # to get proper validation errors.
+            messages.error("Make sure all fields are entered and valid.")
+            return redirect('contacts')
+
+    return render (request,"contact.html")
+
+
+def hightolow(request):  
+    product = Product.objects.all().order_by('-price')
+    productcount=product.count()
+    catogeries = Category.objects.all().annotate(numpro=Count('product'))
+    context = {'product':product,'catogeries':catogeries,'count':productcount}
+    return render(request, "product-grids.html",context)
 # def remove_cart(request,id):
 #     cart = Cart.objects.get(cart_id = _cart_id(request))
 #     product = get_object_or_404(Product,id=id)
@@ -246,6 +295,18 @@ def _cart_id(request):
 #         cart_item.delete()
 #         return redirect('cart')
 #     return redirect('cart')
+
+
+def lowtohigh(request):
+
+    product = Product.objects.all().order_by('price')
+ 
+    productcount=product.count()
+  
+    catogeries = Category.objects.all().annotate(numpro=Count('product'))
+ 
+    context = {'product':product,'catogeries':catogeries,'count':productcount}
+    return render(request, "product-grids.html",context)
 def remove_cart(request,product_id, cart_item_id):
         
     product     = get_object_or_404(Product, id=product_id)
