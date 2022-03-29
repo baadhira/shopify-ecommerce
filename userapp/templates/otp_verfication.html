@@ -1,0 +1,11 @@
+{% extends 'baseuser.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div style="max-width: 300px;margin: auto;">
+   <form action="{% url 'userotp' %}" method="POST">
+       {% csrf_token %}
+    <input name='otp_input' type="number"  placeholder="Enter OTP " required>
+    <button type="submit" style="margin-bottom: 10px;" class="btn btn-primary" >Submit OTP</button>
+   </form>
+</div>
+{% endblock %}

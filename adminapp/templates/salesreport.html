@@ -1,0 +1,336 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block body_block %}
+<script src="{% static 'admin/dist/js/html2pdf.bundle.min.js' %}"></script>
+<!-- CSS -->
+<link rel="stylesheet" href="{% static 'libs/datepicker/daterangepicker.css' %}" type="text/css">
+
+<script>
+    'use strict';
+$(document).ready(function () {
+
+    $('input[name="single-date-picker"]').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true
+    });
+
+    $('input[name="simple-date-range-picker"]').daterangepicker();
+
+    $('input[name="simple-date-range-picker-callback"]').daterangepicker({}, function (start, end, label) {
+        swal("A new date selection was made", start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'), "success")
+    });
+
+    $('input[name="datetimes"]').daterangepicker({
+        timePicker: true,
+        startDate: moment().startOf('hour'),
+        endDate: moment().startOf('hour').add(32, 'hour'),
+        locale: {
+            format: 'M/DD hh:mm A'
+        }
+    });
+
+    /**
+     * datefilter
+     */
+    var datefilter = $('input[name="datefilter"]');
+    datefilter.daterangepicker({
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear'
+        }
+    });
+
+    datefilter.on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+    });
+
+    $('input.create-event-datepicker').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false
+    }).on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('MM/DD/YYYY'));
+    });
+
+});
+
+</script>
+
+<!-- Javascript -->
+<script src="{% static 'libs/datepicker/daterangepicker.js' %}"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->
+<!--  -->
+
+
+<!-- 
+    <script>
+        $('input[name="daterange"]').daterangepicker({
+          maxDate: moment(),
+          ignoreReadonly: true,
+          format:'dd/mm/yyyy',
+          allowInputToggle: true,
+          defaultDate: false,
+          useCurrent: false
+        }
+      );
+    </script> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--    
+
+    <script>
+    $(function() {
+      $('input[name="daterange"]').daterangepicker({
+        opens: 'left'
+      }, function(start, end, label) {
+        console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+      });
+    });
+    </script> -->
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="content ">
+
+    
+        
+    <div class="mb-4">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">
+                        <i class="bi bi-globe2 small me-2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Products</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="card my-3">
+        <div class="card-body ">
+            <form action="{% url 'salesReport' %}" method="post">
+                {% csrf_token %}
+
+                <div class="d-md-flex row">
+
+                    <div class="col-md-4">
+                        <!-- Select range :
+                        <input type="text" name="daterange" /> -->
+
+
+                        <input type="text" class="form-group" name="daterange">
+                        <!-- <input type="text" name="daterangepicker" class="form-control">
+                        <script>
+                            $('input[name="daterangepicker"]').daterangepicker();
+                        </script> -->
+                        <!-- <input type="text" class="daterange" value="01/01/2015 - 01/31/2015" /> -->
+<!-- <script type="text/javascript">
+    $(function() {
+        $('input[name="daterange"]').daterangepicker();
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" /> -->
+
+<!-- Include Date Range Picker -->
+<!-- <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
+<input type="text" name="daterange" value="05/3/2022 - 01/4/2022" /> -->
+                        
+                        
+                    </div>
+                    <div class="col-md-3 ">
+
+                        <span class="my-auto">Month :<select name="month" class="form-select"
+                                aria-label="Default select example">
+                                <option selected></option>
+                                {% for month in months %}
+                                <option value="{{forloop.counter}}">{{month}}</option>
+                                {% endfor %}
+                            </select>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="my-auto"> Year :<select name="year" class="form-select"
+                                aria-label="Default select example2">
+                                <option selected></option>
+                                {% for year in years %}
+                                <option value="{{forloop.counter}}">{{year}}</option>
+                                {% endfor %}
+                            </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="mt-2 py-3 px-5 btn btn-outline-dark">Filter</button>
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-md-flex gap-4 align-items-center">
+                        <div class="d-none d-md-flex">All Products</div>
+                        <div class="d-md-flex gap-4 align-items-center">
+                            
+                        </div>
+                        <div class="dropdown ms-auto">
+                            <a href="{% url 'export_csv' %}" 
+                               class="btn btn-primary"
+                               aria-haspopup="true" aria-expanded="false">CSV</a>
+                         
+                        </div>
+                        {% comment %} <div class="dropdown ms-auto">
+                            <button onclick="(printPDF())"
+                               class="btn btn-primary"
+                               aria-haspopup="true" aria-expanded="false">PDF</button>
+                         
+                        </div> {% endcomment %}
+
+                        <div class="dropdown ms-auto">
+                            <button onclick='printPDF()'
+                               class="btn btn-primary"
+                               aria-haspopup="true" aria-expanded="false">PDF</button>
+                         
+                        </div>
+
+
+                        
+                        <div class="dropdown ms-auto">
+                            <a href="{% url 'export_excel' %}" 
+                               class="btn btn-primary"
+                               aria-haspopup="true" aria-expanded="false">Excel</a>
+                            
+                            
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-custom table-lg mb-0" id="reporttable">
+                    <thead>
+                        <tr>
+                           
+                            <th>ORDER NO</th>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Amount Paid</th>
+                            <th>Order Date</th>
+                            <th>Payment Method</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for i in orderpro %}
+                        <tr>
+                           
+                            <td>
+                                <a href="#">#{{i.order_number}}</a>
+                            </td>
+                           
+                            <td>{{i.user.username}}</td>
+                            <td>
+                                {{i.get_cart_items}}
+                            </td>
+                            <td>₹{{i.payment.amount_paid}}</td>
+                            <td>{{i.created_at}}</td>
+                            <td>{{i.payment.payment_method}}</td>
+                           
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- <div class="d-flex justify-content-center w-100 mt-5">
+                <div class="my-4 d-flex justify-content-center w-100" aria-label="Page navigation sample">
+                  {% if product.has_other_pages %}
+                      {% if product.has_previous %}
+                      
+                      {% else %}
+                      {% endif %}
+                      {% for i in product.paginator.page_range %}
+                      {% if product.number == i %}
+                      <div class="page-item active "><a class="page-link" href="">{{i}}</a></div>
+                      {% else %}
+                      <div class="page-item "><a class="page-link" href="?page={{i}}">{{i}}</a></div>
+                      {% endif %}
+                      {% endfor %}
+                      {% if product.has_next %}
+                      <div class="page-item "><a class="page-link" href="?page={{product.next_page_number}}">Next</a>
+                      </div>
+                      {% else %}
+                      <div class="page-item disabled "><a class="page-link" href="#">Next</a></div>
+                      {% endif %}
+                  {% endif %}
+              </div>
+            </div> -->
+        </div>
+        
+    </div>
+
+    </div>
+
+    
+
+<script>
+    function printPDF (){
+        var date = new Date().toISOString().slice(0,19);
+        console.log(date)
+        var element = document.getElementById('reporttable');
+        var opt = {
+          margin:       1,
+          filename:     'SalesReport'+ date +'.pdf',
+          image:        { type: 'jpeg', quality: 0.98 },
+          html2canvas:  { scale: 2 },
+          jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        
+        html2pdf(element, opt)
+    }
+</script>
+{% endblock %}

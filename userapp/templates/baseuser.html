@@ -1,0 +1,607 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+
+<!-- Mirrored from demo.graygrids.com/themes/shopgrids/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Mar 2022 04:17:41 GMT -->
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>ShopGrids - Bootstrap 5 eCommerce HTML Template.</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'user/images/favicon.svg' %}" />
+
+    <link rel="stylesheet" href="{% static 'user/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'user/css/LineIcons.3.0.css' %}" />
+    <link rel="stylesheet" href="{% static 'user/css/tiny-slider.css' %}" />
+    <link rel="stylesheet" href="{% static 'user/css/glightbox.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'user/css/main.css' %}" />
+    <script src="https://kit.fontawesome.com/c410696b3d.js" crossorigin="anonymous"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AcqvNwImCleAm7jmfSgeE-nQq3jlilok91XZeQVY15sjrT5PcS6dOylPIq0IdOpIaI_dnQbVXmCBPvZk&currency=USD"></script>
+  
+</head>
+
+<body>
+    <!--[if lte IE 9]>
+      <p class="browserupgrade">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="https://browsehappy.com/">upgrade your browser</a> to improve
+        your experience and security.
+      </p>
+    <![endif]-->
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+
+    <header class="header navbar-area">
+
+        <div class="topbar">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 col-md-4 col-12">
+                        <div class="top-left">
+                            <!-- <ul class="menu-top-link">
+                                <li>
+                                    <div class="select-position">
+                                        <select id="select4">
+                                            <option value="0" selected>$ USD</option>
+                                            <option value="1">€ EURO</option>
+                                            <option value="2">$ CAD</option>
+                                            <option value="3">₹ INR</option>
+                                            <option value="4">¥ CNY</option>
+                                            <option value="5">৳ BDT</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="select-position">
+                                        <select id="select5">
+                                            <option value="0" selected>English</option>
+                                            <option value="1">Español</option>
+                                            <option value="2">Filipino</option>
+                                            <option value="3">Français</option>
+                                            <option value="4">العربية</option>
+                                            <option value="5">हिन्दी</option>
+                                            <option value="6">বাংলা</option>
+                                        </select>
+                                    </div>
+                                </li>
+                            </ul> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-12">
+                        <div class="top-middle">
+                            <ul class="useful-links">
+                                <li><a href="{% url 'userpage' %}">Home</a></li>
+                                
+                                <!-- <li><a href="contact.html">Contact Us</a></li> -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-12">
+                        <div class="top-end">
+                            <div class="user">
+                                <i class="lni lni-user"></i>
+                                {{username}}
+                            </div>
+                            <ul class="user-login">
+                                {% if user.is_authenticated %}
+                                <li>
+                                    <a href="{% url 'userprofilehome' %}">Profile</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'userlogout' %}">Logout</a>
+                                </li>
+                                {% else %}
+                                <li>
+                                    <a href="{% url 'userlogin' %}">Sign In</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'usersignup' %}">Register</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="header-middle">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-3 col-md-3 col-7">
+
+                        <a class="navbar-brand" href="{% url 'userpage' %}">
+                            <img src="{% static 'user/images/logo/logo.svg' %}" alt="Logo">
+                        </a>
+
+                    </div>
+                    <div class="col-lg-5 col-md-7 d-xs-none">
+
+                        <div class="main-menu-search">
+                            <form method="GET" action="{% url 'search' %}">
+                            <div class="navbar-search search-style-5">
+                                <!-- <div class="search-select">
+                                    <div class="select-position">
+                                        <select id="select1">
+                                            <option selected>All</option>
+                                            <option value="1">option 01</option>
+                                            <option value="2">option 02</option>
+                                            <option value="3">option 03</option>
+                                            <option value="4">option 04</option>
+                                            <option value="5">option 05</option>
+                                        </select>
+                                    </div>
+                                </div> -->
+                                <div class="search-input">
+                                    <input name="keyword" type="text" placeholder="Search">
+                                </div>
+                                <div class="search-btn">
+                                    <button type="submit"><i class="lni lni-search-alt"></i></button>
+                                </div>
+                            </div>
+                        </form>
+
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4 col-md-2 col-5">
+                        <div class="middle-right-area">
+                            <div class="nav-hotline">
+                                
+                                
+                            </div>
+                            <div class="navbar-cart">
+                                <div class="wishlist">
+                                    <a href="{% url 'wishlist' %}">
+                                        <i class="lni lni-heart"></i>
+                                        <span class="total-items">0</span>
+                                    </a>
+                                </div>
+                                <div class="cart-items">
+                                    <a href="javascript:void(0)" class="main-btn">
+                                        <i class="lni lni-cart"></i>
+                                        <span class="total-items">{{cartitem.quantity}}</span>
+                                    </a>
+
+                                    <div class="shopping-item">
+                                        <div class="dropdown-cart-header">
+                                            <span></span>
+                                            <a href="{% url 'cart' %}">View Cart</a>
+                                        </div>
+                                        <ul class="shopping-list">
+                                            {% for i in cartitem %}
+                                            <li>
+                                                <a href="javascript:void(0)" class="remove" title="Remove this
+                                                        item"><i class="lni
+                                                            lni-close"></i></a>
+                                                <div class="cart-img-head">
+                                                    <a class="cart-img" href="product-details.html">
+                                                        <img src="{% static 'user/images/header/cart-items/item1.jpg'%}" alt="#"></a>
+                                                </div>
+                                                <div class="content">
+                                                    <h4><a href="product-details.html"> {{i.product.product_name}}</a></h4>
+                                                    <p class="quantity">{{i.quantity}}x -
+                                                        <span class="amount">{{i.product.price}}</span>
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            {% endfor %}
+                                            <!-- <li>
+                                                <a href="javascript:void(0)" class="remove" title="Remove this
+                                                        item"><i class="lni
+                                                            lni-close"></i></a>
+                                                <div class="cart-img-head">
+                                                    <a class="cart-img" href="product-details.html"><img src="{% static
+                                                                'user/images/header/cart-items/item2.jpg'
+                                                                %}" alt="#"></a>
+                                                </div>
+                                                <div class="content">
+                                                    <h4><a href="product-details.html">Wi-Fi
+                                                            Smart Camera</a></h4>
+                                                    <p class="quantity">1x -
+                                                        <span class="amount">$35.00</span>
+                                                    </p>
+                                                </div>
+                                            </li> -->
+                                        </ul>
+                                        <div class="bottom">
+                                            <div class="total">
+                                                <span>Total</span>
+                                                <span class="total-amount">$134.00</span>
+                                            </div>
+                                            <div class="button">
+                                                <a href="checkout.html" class="btn animate">Checkout</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 col-md-6 col-12">
+                    <div class="nav-inner">
+
+                        <div class="mega-category-menu">
+                            <span class="cat-button"><i class="lni
+                                        lni-menu"></i>All Categories</span>
+                            <ul class="sub-category">
+                                {% for category in links %}
+                                
+                                <li><a href="product-grids.html">{{category.category_name}}</a></li>
+                                {% endfor %}
+                                
+                            </ul>
+                        </div>
+
+
+                        <nav class="navbar navbar-expand-lg">
+                            <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle
+                                    navigation">
+                                <span class="toggler-icon"></span>
+                                <span class="toggler-icon"></span>
+                                <span class="toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse
+                                    sub-menu-bar" id="navbarSupportedContent">
+                                <ul id="nav" class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        <a href="index-2.html" class="active" aria-label="Toggle navigation">Home</a>
+                                    </li>
+                                    <!-- <li class="nav-item">
+                                        <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse"
+                                            data-bs-target="#submenu-1-2" aria-controls="navbarSupportedContent"
+                                            aria-expanded="false" aria-label="Toggle navigation">Pages</a>
+                                        <ul class="sub-menu collapse" id="submenu-1-2">
+                                            <li class="nav-item"><a href="about-us.html">About
+                                                    Us</a></li>
+                                            <li class="nav-item"><a href="faq.html">Faq</a></li>
+                                            <li class="nav-item"><a href="login.html">Login</a></li>
+                                            <li class="nav-item"><a href="register.html">Register</a></li>
+                                            <li class="nav-item"><a href="mail-success.html">Mail
+                                                    Success</a></li>
+                                            <li class="nav-item"><a href="404.html">404
+                                                    Error</a></li>
+                                        </ul>
+                                    </li> -->
+                                    <li class="nav-item">
+                                        <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse"
+                                            data-bs-target="#submenu-1-3" aria-controls="navbarSupportedContent"
+                                            aria-expanded="false" aria-label="Toggle navigation">Shop</a>
+                                        <ul class="sub-menu collapse" id="submenu-1-3">
+                                            <li class="nav-item"><a href="{% url 'userproductgrid' %}">Shop
+                                                    Grid</a></li>
+                                            <li class="nav-item"><a href="product-list.html">Shop
+                                                    List</a></li>
+                                            <!-- <li class="nav-item"><a href="product-details.html">shop
+                                                    Single</a></li>
+                                            <li class="nav-item"><a href="cart.html">Cart</a></li>
+                                            <li class="nav-item"><a href="checkout.html">Checkout</a></li> -->
+                                        </ul>
+                                    </li>
+                                    <!-- <li class="nav-item">
+                                        <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse"
+                                            data-bs-target="#submenu-1-4" aria-controls="navbarSupportedContent"
+                                            aria-expanded="false" aria-label="Toggle navigation">Blog</a>
+                                        <ul class="sub-menu collapse" id="submenu-1-4">
+                                            <li class="nav-item"><a href="blog-grid-sidebar.html">Blog
+                                                    Grid Sidebar</a>
+                                            </li>
+                                            <li class="nav-item"><a href="blog-single.html">Blog
+                                                    Single</a></li>
+                                            <li class="nav-item"><a href="blog-single-sidebar.html">Blog
+                                                    Single
+                                                    Sibebar</a></li>
+                                        </ul>
+                                    </li> -->
+                                    <li class="nav-item">
+                                        <a href="contact.html" aria-label="Toggle navigation">Contact
+                                            Us</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+
+                    </div>
+                </div>
+                <!-- <div class="col-lg-4 col-md-6 col-12">
+
+                    <div class="nav-social">
+                        <h5 class="title">Follow Us:</h5>
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0)"><i class="lni
+                                            lni-facebook-filled"></i></a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)"><i class="lni
+                                            lni-twitter-original"></i></a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)"><i class="lni
+                                            lni-instagram"></i></a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)"><i class="lni
+                                            lni-skype"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div> -->
+            </div>
+        </div>
+
+    </header>
+
+    {% block content %}
+    {% endblock %}
+
+    <footer class="footer">
+
+       
+
+
+        <div class="footer-middle">
+            <div class="container">
+                <div class="bottom-inner">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-12">
+
+                            <div class="single-footer f-contact">
+                                <h3>Get In Touch With Us</h3>
+                                <p class="phone">Phone: +91 6282432820</p>
+                                <ul>
+                                    <li><span>Monday-Friday: </span> 9.00 am
+                                        - 8.00 pm</li>
+                                    <li><span>Saturday: </span> 10.00 am -
+                                        6.00 pm</li>
+                                </ul>
+                                <p class="mail">
+                                    <a
+                                        href="https://demo.graygrids.com/cdn-cgi/l/email-protection#9cefe9ececf3eee8dceff4f3ecfbeef5f8efb2fff3f1"><span
+                                            class="__cf_email__"
+                                            data-cfemail="3d4e484d4d524f497d4e55524d5a4f54594e135e5250">[email&#160;protected]</span></a>
+                                </p>
+                            </div>
+
+                        </div>
+                        <!-- <div class="col-lg-3 col-md-6 col-12">
+
+                            <div class="single-footer our-app">
+                                <h3>Our Mobile App</h3>
+                                <ul class="app-btn">
+                                    <li>
+                                        <a href="javascript:void(0)">
+                                            <i class="lni lni-apple"></i>
+                                            <span class="small-title">Download
+                                                on the</span>
+                                            <span class="big-title">App
+                                                Store</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)">
+                                            <i class="lni lni-play-store"></i>
+                                            <span class="small-title">Download
+                                                on the</span>
+                                            <span class="big-title">Google
+                                                Play</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div> -->
+                        <!-- <div class="col-lg-3 col-md-6 col-12">
+
+                           
+
+                        </div> -->
+                        <div class="col-lg-3 col-md-6 col-12">
+
+                            <div class="single-footer f-link">
+                                <h3>Shop Departments</h3>
+                                <ul>
+                                    <li><a href="javascript:void(0)">Computers
+                                            & Accessories</a></li>
+                                    <li><a href="javascript:void(0)">Smartphones
+                                            & Tablets</a></li>
+                                    <li><a href="javascript:void(0)">TV,
+                                            Video & Audio</a></li>
+                                    <li><a href="javascript:void(0)">Cameras,
+                                            Photo & Video</a></li>
+                                    <li><a href="javascript:void(0)">Headphones</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="inner-content">
+                    <div class="row align-items-center">
+                        <div class="col-lg-4 col-12">
+                            <div class="payment-gateway">
+                                <span>We Accept:</span>
+                                <img src="{% static 'user/images/footer/credit-cards-footer.png' %}" alt="#">
+                            </div>
+                        </div>
+                        <!-- <div class="col-lg-4 col-12">
+                            <div class="copyright">
+                                <p>Designed and Developed by<a href="https://graygrids.com/" rel="nofollow"
+                                        target="_blank">GrayGrids</a></p>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-lg-4 col-12">
+                            <ul class="socila">
+                                <li>
+                                    <span>Follow Us On:</span>
+                                </li>
+                                <li><a href="javascript:void(0)"><i class="lni lni-facebook-filled"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="lni
+                                                lni-twitter-original"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="lni lni-instagram"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="lni lni-google"></i></a></li>
+                            </ul>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+
+
+    <a href="#" class="scroll-top">
+        <i class="lni lni-chevron-up"></i>
+    </a>
+
+    <script data-cfasync="false"
+        src="https://demo.graygrids.com/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="{% static 'user/js/bootstrap.min.js' %}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="{% static 'user/js/tiny-slider.js' %}"></script>
+    <script src="{% static 'user/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'user/js/main.js' %}"></script>
+    <script type="text/javascript">
+        //========= Hero Slider 
+        tns({
+            container: '.hero-slider',
+            slideBy: 'page',
+            autoplay: true,
+            autoplayButtonOutput: false,
+            mouseDrag: true,
+            gutter: 0,
+            items: 1,
+            nav: false,
+            controls: true,
+            controlsText: ['<i class="lni lni-chevron-left"></i>', '<i class="lni lni-chevron-right"></i>'],
+        });
+
+        //======== Brand Slider
+        tns({
+            container: '.brands-logo-carousel',
+            autoplay: true,
+            autoplayButtonOutput: false,
+            mouseDrag: true,
+            gutter: 15,
+            nav: false,
+            controls: false,
+            responsive: {
+                0: {
+                    items: 1,
+                },
+                540: {
+                    items: 3,
+                },
+                768: {
+                    items: 5,
+                },
+                992: {
+                    items: 6,
+                }
+            }
+        });
+        
+
+    </script>
+    <script>
+        const finaleDate = new Date("February 15, 2023 00:00:00").getTime();
+
+        const timer = () => {
+            const now = new Date().getTime();
+            let diff = finaleDate - now;
+            if (diff < 0) {
+                document.querySelector('.alert').style.display = 'block';
+                document.querySelector('.container').style.display = 'none';
+            }
+
+            let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            let hours = Math.floor(diff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+            let minutes = Math.floor(diff % (1000 * 60 * 60) / (1000 * 60));
+            let seconds = Math.floor(diff % (1000 * 60) / 1000);
+
+            days <= 99 ? days = `0${days}` : days;
+            days <= 9 ? days = `00${days}` : days;
+            hours <= 9 ? hours = `0${hours}` : hours;
+            minutes <= 9 ? minutes = `0${minutes}` : minutes;
+            seconds <= 9 ? seconds = `0${seconds}` : seconds;
+
+            document.querySelector('#days').textContent = days;
+            document.querySelector('#hours').textContent = hours;
+            document.querySelector('#minutes').textContent = minutes;
+            document.querySelector('#seconds').textContent = seconds;
+
+        }
+        timer();
+        setInterval(timer, 1000);
+    </script>
+    <script src="{% static 'user/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script type="text/javascript" src="{% static 'user/js/cart.js' %}"></script>
+    <script type="text/javascript">
+        var user = '{{request.user}}'
+        function getToken(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getToken('csrftoken');
+    </script>
+
+
+
+
+
+
+</body>
+
+<!-- Mirrored from demo.graygrids.com/themes/shopgrids/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Mar 2022 04:18:51 GMT -->
+
+</html>

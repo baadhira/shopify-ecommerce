@@ -1,0 +1,95 @@
+{% extends 'baseuser.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div style="max-width: 300px;margin: auto;">
+   <form action="{% url 'usersignup' %}" id="registerForm" method="POST">
+       {% csrf_token %}
+       
+
+       <style>
+#hint_id_username{
+            display :none;
+         }
+         #hint_id_password1{
+            display:none;
+         }
+         #hint_id_password2{
+            display:none;
+         }
+       </style>
+    {{ form|crispy }}
+    <button type="submit" style="margin-bottom: 10px;" class="btn btn-primary" >Register</button>
+   </form>
+</div>
+{% endblock %}
+
+<script>
+$('#registerForm').validate({
+   rules: {
+      username : {
+         required: true,
+         minlength:3
+      },
+      email : {
+         required: true,
+         email: true
+      },
+      phoneno : {
+         required: true,
+         digits : true,
+         minlength:10,
+         maxlength:10
+      },
+      password1 : {
+         required: true,
+         minlength:5,
+      },
+      password2 : {
+         required: true,
+         minlength:5,
+         equalTo:"id_password1"
+      },
+
+   },
+
+   messages: {
+      username: {
+         required: "Enter your username",
+         minlength:"Minimum 3 characters required",
+
+      },
+      email: {
+         required: "Enter your email address",
+         email: "Please enter a valid email address"
+
+      },
+      phoneno : {
+         required:"enter your phone number",
+         digits : "Only enter numbers",
+         minlength:"10 digits required",
+         maxlength: "Maximum 10 digits required",
+      },
+      password1 : {
+         required : "Password required",
+         minlength:"need at least five character",
+      },
+      password2 : {
+         required : "Re-enter password",
+         equalTo : "The password must be same as the one entered",
+
+      },
+   },
+
+})
+
+$('#id_phoneno').keyup(validateMaxLength);
+function validateMaxLength(){
+   var text = $(this).val();
+   var maxlength = 10;
+   if(maxlength > 0){
+      $(this).val(text.substr(0,maxlength));
+   }
+}
+
+
+</script>

@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+{% block body_block %}
+  <!-- content -->
+  <div class="content ">
+        
+    <div class="mb-4">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'adminpage' %}">
+                        <i class="bi bi-globe2 small me-2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Order Detail</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 col-md-12">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="mb-5 d-flex align-items-center justify-content-between">
+                        <span>Order No : <a href="#">{{order.order_number}}</a></span>
+                        <span class="badge bg-success">{{order.status}}</span>
+                    </div>
+                    <div class="row mb-5 g-4">
+                        <div class="col-md-3 col-sm-6">
+                            <p class="fw-bold">Order Created at</p>
+                            {{order.created_at}}
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <p class="fw-bold">Name</p>
+                            {{order.first_name}}{{order.last_name}}
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <p class="fw-bold">Email</p>
+                            {{order.email}}
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <p class="fw-bold">Contact No</p>
+                            {{order.phone}}
+                        </div>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="card">
+                                <div class="card-body d-flex flex-column gap-3">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="mb-0">Delivery Address</h5>
+                                        <!-- <a href="#">Edit</a> -->
+                                    </div>
+                                    <div>Name: {{order.first_name}}{{order.last_name}}</div>
+                                    <div>{{order.address_lane_1}}</div>
+                                    <div>{{order.city}}</div>
+                                    <div>
+                                        <i class="bi bi-telephone me-2"></i> {{order.phone}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="card">
+                                <div class="card-body d-flex flex-column gap-3">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="mb-0">Billing Address</h5>
+                                        <!-- <a href="#">Edit</a> -->
+                                    </div>
+                                    <div>Name: {{order.first_name}} {{order.last_name}} </div>
+                                    <div>{{order.address_lane_1}}</div>
+                                    <div>{{order.city}}</div>
+                                    <div>
+                                        <i class="bi bi-telephone me-2"></i> {{order.phone}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card widget">
+                <h5 class="card-header">Order Items</h5>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-custom mb-0">
+                            <thead>
+                            <tr>
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in items %}
+                            <tr>
+                                <td>
+                                    <a href="#">
+                                        <img src="{{i.product.product_image1.url}}" class="rounded" width="60" alt="...">
+                                    </a>
+                                </td>
+                                <td>{{i.product.product_name}}</td>
+                                <td>{{i.quantity}}</td>
+                                <td>₹ {{i.product.mrp_price}}</td>
+                                <td>₹ {{i.order.order_total}}</td>
+                            </tr>
+                            {% endfor %}
+                            <!-- <tr>
+                                <td>
+                                    <a href="#">
+                                        <img src="../../assets/images/products/4.jpg" class="rounded" width="60" alt="...">
+                                    </a>
+                                </td>
+                                <td>Toy car</td>
+                                <td>2</td>
+                                <td>$139,58</td>
+                                <td>$279,16</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#">
+                                        <img src="../../assets/images/products/5.jpg" class="rounded" width="60" alt="...">
+                                    </a>
+                                </td>
+                                <td>Sunglasses</td>
+                                <td>1</td>
+                                <td>$50,90</td>
+                                <td>$50,90</td>
+                            </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h6 class="card-title mb-4">Price</h6>
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-4 text-end">Sub Total :</div>
+                        <div class="col-4">₹{{order.nett_paid}}</div>
+                    </div>
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-4 text-end">Shipping :</div>
+                        <div class="col-4">Free</div>
+                    </div>
+                    {% if order.discount > 0  %}
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-4 text-end">Discount({{order.discount}}%) :</div>
+                        <div class="col-4">₹{{order.discount_amount}}</div>
+                    </div>
+                    {% endif %}
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-end">
+                            <strong>Total :</strong>
+                        </div>
+                        <div class="col-4">
+                            <strong>₹{{order.order_total}}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title mb-4">Invoice</h6>
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-6 text-end">Invoice No :</div>
+                        <div class="col-6">
+                            <a href="#">#5355619</a>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-6 text-end">Seller GST :</div>
+                        <div class="col-6">12HY87072641Z0</div>
+                    </div>
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-6 text-end">Purchase GST :</div>
+                        <div class="col-6">22HG9838964Z1</div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-outline-primary">Download PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <!-- ./ content -->
+{% endblock %}

@@ -1,0 +1,360 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body_block %}
+<!-- 
+<div style="width:200px; height: 200px;" >
+
+
+    <canvas id="myChart" width="20" height="20"></canvas>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script>
+const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
+integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
+
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <!-- <h4 class="mb-sm-0 font-size-18">Welcome !</h4> -->
+
+                        <!-- <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Welcome !</li>
+                            </ol>
+                        </div> -->
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-xl-3 col-md-6">
+                    <!-- card -->
+                    <div class="card card-h-100">
+                        <!-- card body -->
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <span class="text-muted mb-3 lh-1 d-block text-truncate">Total Amount</span>
+                                    
+                                    <h4 class="mb-3">
+                                        ₹<span class="counter-value" data-target="{{total_sales}}">{{total_sales.amount_paid__sum}}</span>
+
+                                    </h4>
+                                    <div class="text-nowrap">
+                                        <!-- <span class="badge bg-soft-success text-success">{{total_sales}}</span>
+                                        <span class="ms-1 text-muted font-size-13">Since last minute</span> -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+
+                <div class="col-xl-3 col-md-6">
+                    <!-- card -->
+                    <div class="card card-h-100">
+                        <!-- card body -->
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <span class="text-muted mb-3 lh-1 d-block text-truncate">Total Orders</span>
+                                    <h4 class="mb-3">
+                                        <span class="counter-value" data-target="{{ordersc}}">{{ordersc}}</span>
+                                    </h4>
+                                    <div class="text-nowrap">
+                                        <!-- <span class="badge bg-soft-danger text-danger">-29 Trades</span>
+                                        <span class="ms-1 text-muted font-size-13">Since last week</span> -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col-->
+
+                <div class="col-xl-3 col-md-6">
+                    <!-- card -->
+                    <div class="card card-h-100">
+                        <!-- card body -->
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <span class="text-muted mb-3 lh-1 d-block text-truncate">Total Customers</span>
+                                    <h4 class="mb-3">
+                                        <span class="counter-value" data-target="{{customsc}}">{{customsc}}</span>
+                                    </h4>
+                                    <div class="text-nowrap">
+                                        <!-- <span class="badge bg-soft-success text-success">+ $2.8k</span>
+                                        <span class="ms-1 text-muted font-size-13">Since last week</span> -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+
+                <div class="col-xl-3 col-md-6">
+                    <!-- card -->
+                    <div class="card card-h-100">
+                        <!-- card body -->
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <span class="text-muted mb-3 lh-1 d-block text-truncate">Total Products</span>
+                                    <h4 class="mb-3">
+                                        <span class="counter-value" data-target="{{productsc}}">{{productsc}}</span>
+                                    </h4>
+                                    <div class="text-nowrap">
+                                        <!-- <span class="badge bg-soft-success text-success">+5.32%</span>
+                                        <span class="ms-1 text-muted font-size-13">Since last week</span> -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->    
+            </div><!-- end row-->
+
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- card -->
+                 
+                    <div >
+                        <div class="col-md-6 text-center my-4" style="width:400px; height: 400px;">
+                            <h2 class="main-title">Payment Methods</h2>
+                            <canvas id="paymentchart" width="600" height="600">
+                                <script>
+                                    var xValues = ["Cash On Delevery", "PayPal", "RazorPay"];
+                                    var yValues = {{ payment_type }};
+                                    var barColors = [
+                                        'rgba(255, 99, 132, 0.8)',
+                                        'rgba(54, 162, 235, 0.8)',
+                                        'rgba(255, 206, 86, 0.8)',
+                                    ];
+                            
+                                    new Chart("paymentchart", {
+                                        type: "doughnut",
+                                        data: {
+                                            labels: xValues,
+                                            datasets: [{
+                                                backgroundColor: barColors,
+                                                data: yValues
+                                            }]
+                                        },
+                                        options: {
+                                            title: {
+                                                display: true,
+                                                text: "Payment Modes Chart"
+                                            }
+                                        }
+                                    });
+                                </script>
+                            
+                                
+            
+                            </canvas>
+            
+                        </div>
+                        
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row-->
+                <div class="col-md-6">
+                   
+                    <div >
+                        <div class="col-md-6 text-center my-4" style="width:400px; height: 400px;">
+                            <h2 class="main-title">Order Status</h2>
+                            <canvas id="orderchart" width="600" height="600">
+                                <script>
+                                    var xValues = ['Ordered', 'Shipped', 'Delivered',  'Cancelled', 'Returned'];
+                                    var yValues = {{ order_status | safe}};
+                                    var barColors = [
+                                        'rgba(255, 159, 64, 0.8)',
+                                        'rgba(255, 99, 132, 0.8)',
+                                        '#77DD77',
+                                        'rgba(54, 162, 235, 0.8)',
+                            
+                                        'rgba(255, 206, 86, 0.8)',
+                                        'rgba(75, 192, 192, 0.8)',
+                                        'rgba(153, 102, 255, 0.8)',
+                            
+                            
+                                    ];
+                            
+                                    new Chart("orderchart", {
+                                        type: "pie",
+                                        data: {
+                                            labels: xValues,
+                                            datasets: [{
+                                                backgroundColor: barColors,
+                                                data: yValues
+                                            }]
+                                        },
+                                        options: {
+                                            title: {
+                                                display: true,
+                                                text: "Order Status Chart"
+                                            }
+                                        }
+                                    });
+                                </script>
+            
+                            </canvas>
+            
+                        </div>
+
+                    </div>
+                </div>
+                <!-- end row-->
+                
+
+            </div>
+            <!-- end row-->
+            
+
+
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+</div>
+<!-- end main content-->
+
+</div>
+<!-- END layout-wrapper -->
+
+<!-- <script>
+    const ct = document.getElementById('myChart23').getContext('2d');
+    const myChart1 = new Chart(ct, {
+        type: 'pie',
+        data: {
+            labels: [{% for key in category_dict %} '{{key}}', {% endfor %} ],
+            datasets: [{
+                label: '# of Votes',
+                data: [{% for key in category_price %} '{{key}}', {% endfor %}],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+<script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: [ 'Cash on Delivery', 'Razor Pay', 'PayPal' ],
+            datasets: [{
+                label: '# of Votes',
+                data: ['{{code_total}}', '{{razor_total}}', '{{paypal_total}}' ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    </script> -->
+    
+ 
+    {% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block body_block %}
+<div style="max-width: 300px;margin: auto;">
+    <form action="" method="POST">
+        {% csrf_token %}
+     {{ form|crispy }}
+     <!-- <input type="coupon_start" name="daterangepicker" class="form-control" name="Coupon start date">
+     <input type="coupon_end" name="daterangepicker" class="form-control"> -->
+     <button type="submit" style="margin-bottom: 10px;" class="btn btn-primary"name="Coupon end date" >Add Coupon</button>
+    </form>
+ </div>
+
+ <script>
+     $('input[name="daterangepicker"]').daterangepicker({
+   singleDatePicker: true,
+   showDropdowns: true
+});
+ </script>
+{% endblock %}

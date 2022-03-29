@@ -1,0 +1,225 @@
+
+{% extends 'baseuser.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="breadcrumbs">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 col-md-6 col-12">
+          <div class="breadcrumbs-content">
+            <h1 class="page-title">checkout</h1>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <ul class="breadcrumb-nav">
+            <li><a href="index-2.html"><i class="lni lni-home"></i> Home</a></li>
+            <li><a href="index-2.html">Shop</a></li>
+            <li>checkout</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <section class="checkout-wrapper section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="checkout-steps-form-style-1">
+            <ul id="accordionExample">
+                <h5 style="padding : 50px;">Shippping Address</h5>
+            {% for i in address %}
+              <li>
+                <h6 class="title" data-bs-toggle="collapse"
+                  data-bs-target="#collapseThree" aria-expanded="true"
+                  aria-controls="collapseThree">
+                  <form action="{% url 'placeorder' %}" method="post">
+                    {% csrf_token %}
+                  <input type="radio" value="{{i.id}}" name="address" class="form-check-label">
+              
+                  {{i.type}} 
+                
+                </h6>
+                <section class="checkout-steps-form-content collapse show"
+                  id="collapseThree" aria-labelledby="headingThree"
+                  data-bs-parent="#accordionExample">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="single-form form-default">
+                        <label> {{i.first_name}} </label>
+                        <div class="row">
+                          <div class="col-md-6 form-input form">
+                            <label> {{i.first_name}} </label>
+                          </div>
+                          <div class="col-md-6 form-input form">
+                            <label> {{i.last_name}} </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="single-form form-default">
+                        <label>{{i.email}}</label>
+                        
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="single-form form-default">
+                        <label>{{i.mobile}}</label>
+                        
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="single-form form-default">
+                        <label>{{i.address_lane_1}}</label>
+                        
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="single-form form-default">
+                        <label>{{i.city}}</label>
+                        
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="single-form form-default">
+                        <label>{{i.pincode}}</label>
+                       
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="single-form form-default">
+                        <label>{{i.country}}</label>
+                        
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="single-form form-default">
+                        <label>Region/State</label>
+                     
+                      </div>
+                    </div>
+                   
+                    <div class="col-md-12">
+                      <div class="single-form button">
+                        <button class="btn" data-bs-toggle="collapse"
+                          data-bs-target="#collapseFour" aria-expanded="false"
+                          aria-controls="collapseFour">next
+                          step</button>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </li>
+            {% endfor %}
+              
+            <div class="text-center">
+              <h4>Add Another Address</h4>
+              <a href="{% url 'addaddress' %}" class="btn btn-primary">Add Address</a>
+
+            </div>
+            
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="checkout-sidebar">
+           
+            <div class="row">
+              <div class="col-lg-4 col-md-1 col-12">
+              </div>
+              <div class="col-lg-2 col-md-1 col-12">
+                <p>Product Name</p>
+              </div>
+              <div class="col-lg-2 col-md-1 col-12">
+                <p>Quantity</p>
+              </div>
+              <div class="col-lg-2 col-md-2 col-12">
+                <p>Subtotal</p>
+              </div>
+             
+             
+            </div>
+          
+          </div>
+  
+           {% for i in cart_items %}
+          <div class="cart-single-list">
+            <div class="row align-items-center">
+              <div class="col-lg-4 col-md-1 col-12">
+                <a href="product-details.html"><img src="{{i.product.product_image1.url}}" alt="#"></a>
+              </div>
+              <div class="col-lg-2 col-md-1 col-12">
+                <h6 class="product-name"><a href="product-details.html"></a>{{i.product.product_name}}</h6>
+               
+              </div>
+              <div class="col-lg-2 col-md-1 col-12">
+                <h6 class="product-name"><a href="product-details.html"></a>{{i.quantity}}</h6>
+            
+            
+              </div>
+         
+              <div class="col-lg-2 col-md-1 col-12">
+                <p>{{i.product.mrp_price}}</p>
+              </div>
+             
+            </div>
+          </div>
+          {% endfor %}
+          <div class="card-body">
+           
+            
+     
+          
+          <form>
+            <div class="checkout-sidebar-price-table mt-30">
+              <h5 class="title">Pricing Table</h5>
+              
+              <dl class="dlist-align">
+                <dt>Total price:</dt>
+                <dd class="text-right">₹ {{grand_total}}</dd>
+                
+              </dl>
+             
+              <dl class="dlist-align">
+                <dt>Total:</dt>
+                <dd class="text-right text-dark b" id="grandTotal"><strong>₹ {{grand_total}}</strong></dd> </strong></dd>
+              </dl>
+                <span id="discountsID" hidden>
+                  <dl class="dlist-align">
+                    <dt>Discount amount:</dt>
+                    <dd class="text-right" id="discAmount"> </dd>
+                    </dl>
+                  <dl class="dlist-align">
+                    <dt>Nett Payable:</dt>
+                    <dd class="text-right text-dark b" id="discGrandTotal" style="color: darkgreen;"> <strong> {{grand_total}} </strong></dd>
+                </dl>
+                </span>
+
+
+
+
+
+              <div class="price-table-btn button">
+                <button   class="btn btn-alt">Checkout</button >
+              </div>
+            </form>
+            </div>
+            <!-- <div class="checkout-sidebar-banner mt-30">
+              <a href="product-grids.html">
+                <img src="assets/images/banner/banner.jpg" alt="#">
+              </a>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+
+{% endblock %}
+

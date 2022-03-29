@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body_block %}
+<div class="content ">
+        
+    <div class="mb-4">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">
+                        <i class="bi bi-globe2 small me-2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Products</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-md-flex gap-4 align-items-center">
+                        <div class="d-none d-md-flex">All Products</div>
+                        <!-- <div class="d-md-flex gap-4 align-items-center">
+                            <form class="mb-3 mb-md-0">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <select class="form-select">
+                                            <option>Sort by</option>
+                                            <option value="desc">Desc</option>
+                                            <option value="asc">Asc</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select class="form-select">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div> -->
+                        <div class="dropdown ms-auto">
+                            <a href="{% url 'addproduct' %}" 
+                               class="btn btn-primary"
+                               aria-haspopup="true" aria-expanded="false">Add Product</a>
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-custom table-lg mb-0" id="product">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input class="form-check-input select-all" type="checkbox"
+                                    data-select-all-target="#product" id="defaultCheck1">
+                            </th>
+                            <th>ID</th>
+                            <th>Photo</th>
+                            <th>Name</th>
+                            <th>Stock</th>
+                            <th>Price</th>
+                            <th>Catogery</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for i in product %}
+                        <tr>
+                            <td>
+                                <input class="form-check-input" type="checkbox">
+                            </td>
+                            <td>
+                                <a href="#">#{{i.id}}</a>
+                            </td>
+                            <td>
+                                {% if i.product_image1 %}
+                                    <img src="{{i.product_image1.url}}"  class="rounded" width="40">
+                                {% endif %}
+                                
+                            </td>
+                            <td>{{i.product_name}}</td>
+                            <td>
+                                <span class="text-success">{{i.stocks}}</span>
+                            </td>
+                            <td>₹{{i.price}}</td>
+                            <td>{{i.category}}</td>
+                            <td class="text-end">
+                                <div class="d-flex">
+                                    <div class="dropdown ms-auto">
+                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-floating"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            <i class="bi bi-three-dots"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a href="{% url 'editproduct' i.id %}" class="dropdown-item">Edit</a>
+                                            <a class="delete_p dropdown-item" data-id="{{i.id}}" >Delete</a>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-center w-100 mt-5">
+                <div class="my-4 d-flex justify-content-center w-100" aria-label="Page navigation sample">
+                  {% if product.has_other_pages %}
+                      {% if product.has_previous %}
+                      
+                      {% else %}
+                      {% endif %}
+                      {% for i in product.paginator.page_range %}
+                      {% if product.number == i %}
+                      <div class="page-item active "><a class="page-link" href="">{{i}}</a></div>
+                      {% else %}
+                      <div class="page-item "><a class="page-link" href="?page={{i}}">{{i}}</a></div>
+                      {% endif %}
+                      {% endfor %}
+                      {% if product.has_next %}
+                      <div class="page-item "><a class="page-link" href="?page={{product.next_page_number}}">Next</a>
+                      </div>
+                      {% else %}
+                      <div class="page-item disabled "><a class="page-link" href="#">Next</a></div>
+                      {% endif %}
+                  {% endif %}
+              </div>
+            </div>
+        </div>
+        <!-- <div class="col-md-4">
+            <h5 class="mb-4">Filter Products</h5>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+                         aria-expanded="true" data-bs-target="#keywordsCollapseExample" role="button">
+                        <div>Keywords</div>
+                        <div class="bi bi-chevron-down"></div>
+                    </div>
+                    <div class="collapse show mt-4" id="keywordsCollapseExample">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Phone, Headphone, Shoe ...">
+                            <button class="btn btn-outline-light" type="button">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+                         aria-expanded="true" data-bs-target="#categoriesCollapseExample" role="button">
+                        <div>Categories</div>
+                        <div class="bi bi-chevron-down"></div>
+                    </div>
+                    <div class="collapse show mt-4" id="categoriesCollapseExample">
+                        <div class="d-flex flex-column gap-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="categoryCheck1">
+                                <label class="form-check-label" for="categoryCheck1">
+                                    All
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="categoryCheck2">
+                                <label class="form-check-label" for="categoryCheck2">
+                                    Accessories
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="categoryCheck3">
+                                <label class="form-check-label" for="categoryCheck3">
+                                    Phone
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="categoryCheck4">
+                                <label class="form-check-label" for="categoryCheck4">
+                                    Headphone
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="categoryCheck5">
+                                <label class="form-check-label" for="categoryCheck5">
+                                    Camera
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+                         aria-expanded="true" data-bs-target="#priceCollapseExample" role="button">
+                        <div>Price</div>
+                        <div class="bi bi-chevron-down"></div>
+                    </div>
+                    <div class="collapse show mt-4" id="priceCollapseExample">
+                        <input id="price-filter"/>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+                         aria-expanded="true" data-bs-target="#colorsCollapseExample" role="button">
+                        <div>Colors</div>
+                        <div class="bi bi-chevron-down"></div>
+                    </div>
+                    <div class="collapse show mt-4" id="colorsCollapseExample">
+                        <div class="color-filter-group d-flex gap-3">
+                            <input class="form-check-input" type="checkbox" value="#1fa0c6" aria-label="...">
+                            <input class="form-check-input" type="checkbox" checked value="green" aria-label="...">
+                            <input class="form-check-input" type="checkbox" checked value="#c61faa" aria-label="...">
+                            <input class="form-check-input" type="checkbox" value="#1fc662" aria-label="...">
+                            <input class="form-check-input" type="checkbox" value="#9dc61f" aria-label="...">
+                            <input class="form-check-input" type="checkbox" checked value="#c67b1f" aria-label="...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    $('.delete_p').on('click',function (e) {
+          
+          var id = $(this).data('id')
+          data = {
+              'id':id,
+          }
+          Swal.fire({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes!'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                  window.location.href = '/adminpage/deleteproduct/'+ id;
+                  
+              }
+            })
+          
+      });
+  </script>
+{% endblock %}
+
+
+
+  
