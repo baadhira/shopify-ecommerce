@@ -77,13 +77,14 @@ def userpage(request):
             product.price = product.mrp_price
             product.save()
 
-    cartitem = Cart_Item.objects.filter(cart__cart_id = _cart_id(request))
+    # cartitem = Cart_Item.objects.filter(cart__cart_id = _cart_id(request))
+    print("cart item in userpage")
     wishlist = Wishlist.objects.all()
     product_offer=ProductOffer.objects.all()
     category_offer=CategoryOffer.objects.all()
     context = {
         'products':products,
-        'cartitem' :cartitem,
+        # 'cartitem' :cartitem,
         'wishlist' : wishlist,
         'banners' : banners,
         'catogeries':catogeries,
