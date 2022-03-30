@@ -387,7 +387,7 @@ def salesReport(request):
     for i in range(0,51):
         yr.append(ag + i)
     if request.method == 'POST':
-        datestr = request.POST.get('daterange')
+        datestr = request.POST.get('dates')
         print(datestr,"########################")
             #start date
         mo = datestr[:2]
@@ -395,28 +395,31 @@ def salesReport(request):
         ye = datestr[6:10]
         #enddate
         mo1 = datestr[13:15]
+        print("mo11111",mo1)
         da1 = datestr[16:18]
         ye1 = datestr[19:]
         from_date = ye+'-'+mo+'-'+da
+        print("from dateeeeeeeeeeeeeeeeeeeee",from_date)
         to_date = ye1+'-'+mo1+'-'+da1
+        print("to dTEEEEEEEEEEEEEEEEEE",to_date)
 
     
         year = request.POST.get('year')
-        print(year,"///////////////////////////////")
+        print(year,"yearrrrr.........///////////////////////////////")
         month = request.POST.get('month')
         print(month)
         print(month,"?????????????????????????????????")
         m = month
-        yrr=year
+       
         
         print(m)
   
         if  month != '' :
             orderpro = Order.objects.filter(created_at__month=m).order_by('created_at')
         elif  year != '' :
-            orderpro = Order.objects.filter(created_at__year=yrr).order_by('created_at')
+            orderpro = Order.objects.filter(created_at__year=year).order_by('created_at')
         elif from_date != '' and to_date != '' :
-            order_data = Order.objects.filter(created_at__range=[from_date,to_date]).order_by('created_at')
+            orderpro = Order.objects.filter(created_at__range=[from_date,to_date]).order_by('created_at')
 
     context = {'orderpro': orderpro, 'years': yr,'months':months,'sales':'sales'}
     return render(request,'salesreport.html', context)

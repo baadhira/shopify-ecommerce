@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div style="max-width: 300px;margin: auto;">
-   <form action="{% url 'usersignup' %}" id="registerForm" method="POST">
+   <form action="{% url 'usersignup' %}" id="registerForm" method="POST" novalidate>
        {% csrf_token %}
        
 

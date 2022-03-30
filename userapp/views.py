@@ -35,6 +35,7 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseBadRequest
 logger = logging.getLogger(__name__)
+from decouple import config
 # Create your views here.
 client = razorpay.Client(auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
 
@@ -138,13 +139,13 @@ def userotp(request):
     if request.method == 'POST':
         
         otpgiven=request.POST['otp_input']
-        account_sid = TWILIO_ACCOUNT_SID
-        auth_token = TWILIO_AUTH_TOKEN
+        account_sid = config('TWILIO_ACCOUNT_SID')
+        auth_token = config('TWILIO_AUTH_TOKEN')
         client = Client(account_sid, auth_token)
         if(len(str(otpgiven))==6):
 
             verification_check = client.verify \
-                            .services(SERVICES_SID) \
+                            .services(config('SERVICES_SID')) \
                             .verification_checks \
                             .create(to=phoneno, code=otpgiven)
             print(verification_check.status)
@@ -157,12 +158,12 @@ def userotp(request):
             auth.login(request,user)
             return redirect('userpage')
     else:
-        account_sid = TWILIO_ACCOUNT_SID
-        auth_token = TWILIO_AUTH_TOKEN
+        account_sid = config('TWILIO_ACCOUNT_SID')
+        auth_token = config('TWILIO_AUTH_TOKEN')
         client = Client(account_sid, auth_token)
 
         verification = client.verify \
-                            .services(SERVICES_SID) \
+                            .services(config('SERVICES_SID')) \
                             .verifications \
                             .create(to= phoneno, channel='sms')
 
@@ -180,6 +181,9 @@ def userlogin(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+        if username == '' and password == '':
+            messages.error(request,"enter valid data")
+            return redirect('userlogin')
         
         user = authenticate(username=username,password=password)
        

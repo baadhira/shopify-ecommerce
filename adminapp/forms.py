@@ -11,6 +11,14 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model=Userreg
         fields=('username','email','phoneno','password1','password2')
+    def clean(self):
+        val = super(CustomUserCreationForm, self).clean()
+        email = val.get("email")
+
+        if email == "":
+            self.add_error('email','this field is required')
+        return val 
+
     
 class EditUserForm(forms.ModelForm):
     class Meta:

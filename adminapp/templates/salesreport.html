@@ -2,128 +2,14 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block body_block %}
-<script src="{% static 'admin/dist/js/html2pdf.bundle.min.js' %}"></script>
-<!-- CSS -->
-<link rel="stylesheet" href="{% static 'libs/datepicker/daterangepicker.css' %}" type="text/css">
 
-<script>
-    'use strict';
-$(document).ready(function () {
 
-    $('input[name="single-date-picker"]').daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true
-    });
 
-    $('input[name="simple-date-range-picker"]').daterangepicker();
 
-    $('input[name="simple-date-range-picker-callback"]').daterangepicker({}, function (start, end, label) {
-        swal("A new date selection was made", start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'), "success")
-    });
 
-    $('input[name="datetimes"]').daterangepicker({
-        timePicker: true,
-        startDate: moment().startOf('hour'),
-        endDate: moment().startOf('hour').add(32, 'hour'),
-        locale: {
-            format: 'M/DD hh:mm A'
-        }
-    });
 
-    /**
-     * datefilter
-     */
-    var datefilter = $('input[name="datefilter"]');
-    datefilter.daterangepicker({
-        autoUpdateInput: false,
-        locale: {
-            cancelLabel: 'Clear'
-        }
-    });
-
-    datefilter.on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-    });
-
-    $('input.create-event-datepicker').daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        autoUpdateInput: false
-    }).on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('MM/DD/YYYY'));
-    });
-
-});
-
-</script>
-
-<!-- Javascript -->
-<script src="{% static 'libs/datepicker/daterangepicker.js' %}"></script>
-
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->
-<!--  -->
-
-
-<!-- 
-    <script>
-        $('input[name="daterange"]').daterangepicker({
-          maxDate: moment(),
-          ignoreReadonly: true,
-          format:'dd/mm/yyyy',
-          allowInputToggle: true,
-          defaultDate: false,
-          useCurrent: false
-        }
-      );
-    </script> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--    
-
-    <script>
-    $(function() {
-      $('input[name="daterange"]').daterangepicker({
-        opens: 'left'
-      }, function(start, end, label) {
-        console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-      });
-    });
-    </script> -->
-   
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <div class="content ">
@@ -154,7 +40,8 @@ $(document).ready(function () {
                         <input type="text" name="daterange" /> -->
 
 
-                        <input type="text" class="form-group" name="daterange">
+                        <!-- <input type="text" class="form-group" name="daterange"> -->
+                        <p class="stat-cards-info__num"><input type="text" class="ms-2 mt-4" name="dates"  /></p>
                         <!-- <input type="text" name="daterangepicker" class="form-control">
                         <script>
                             $('input[name="daterangepicker"]').daterangepicker();
@@ -192,7 +79,7 @@ $(document).ready(function () {
                                 aria-label="Default select example2">
                                 <option selected></option>
                                 {% for year in years %}
-                                <option value="{{forloop.counter}}">{{year}}</option>
+                                <option value="{{year}}">{{year}}</option>
                                 {% endfor %}
                             </select>
                     </div>
@@ -315,6 +202,10 @@ $(document).ready(function () {
 
     </div>
 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     
 
 <script>
@@ -333,4 +224,65 @@ $(document).ready(function () {
         html2pdf(element, opt)
     }
 </script>
+<script>
+    $('input[name="dates"]').daterangepicker({
+      maxDate: moment(),
+      ignoreReadonly: true,
+      format:'dd/mm/yyyy',
+      allowInputToggle: true,
+      defaultDate: false,
+      useCurrent: false
+    }
+  );
+</script>
+<!-- <script>
+    'use strict';
+$(document).ready(function () {
+
+    $('input[name="single-date-picker"]').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true
+    });
+
+    $('input[name="daterange"]').daterangepicker();
+
+    $('input[name="daterange"]').daterangepicker({}, function (start, end, label) {
+        swal("A new date selection was made", start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'), "success")
+    });
+
+    $('input[name="daterange"]').daterangepicker({
+        timePicker: true,
+        startDate: moment().startOf('hour'),
+        endDate: moment().startOf('hour').add(32, 'hour'),
+        locale: {
+            format: 'M/DD hh:mm A'
+        }
+    });
+
+    /**
+     * datefilter
+     */
+    var datefilter = $('input[name="daterange"]');
+    datefilter.daterangepicker({
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear'
+        }
+    });
+
+    datefilter.on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+    });
+
+    $('input.daterange').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false
+    }).on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('MM/DD/YYYY'));
+    });
+
+});
+
+</script> -->
 {% endblock %}
