@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title> Vetra | E-Commerce HTML Admin Dashboard Template  </title>
+    <title> admin side</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{% static 'admin/images/favicon.png' %}"/>
@@ -249,7 +249,7 @@
         <a href="{% url 'adminpage' %}" class="menu-header-logo">
             <img src="{% static 'user/images/logo/logo.svg' %}" alt="Logo">
         </a>
-        <a href="index.html" class="btn btn-sm menu-close-btn">
+        <a href="{% url 'adminpage' }" class="btn btn-sm menu-close-btn">
             <i class="bi bi-x"></i>
         </a>
     </div>

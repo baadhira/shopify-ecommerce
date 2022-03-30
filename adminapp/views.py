@@ -16,6 +16,7 @@ from django.db.models import Sum
 from datetime import timezone
 from datetime import date
 from datetime import datetime
+from django.views.decorators.cache import never_cache
 ''' logger module'''
 import logging
 logger = logging.getLogger(__name__)
@@ -24,7 +25,7 @@ import xlwt
 from dash import dcc
 from datetime import date
 
-
+@never_cache
 def adminpage(request):
     products = Product.objects.all()
    
@@ -57,7 +58,7 @@ def adminpage(request):
 
 
 
-
+@never_cache
 def addproduct(request):
     if request.method == 'POST':
         form = Productform(request.POST,request.FILES)
@@ -80,7 +81,7 @@ def addproduct(request):
 
 from django.core.paginator import EmptyPage , PageNotAnInteger , Paginator
 
-    
+@never_cache   
 def getproduct(request):
     product = Product.objects.all()
     paginator = Paginator (product, 4)
@@ -92,7 +93,7 @@ def getproduct(request):
     }
     return render(request,'productlist.html',context)
 
-
+@never_cache
 def editproduct(request,id):
     context = {}
     obj = Product.objects.get(id=id)
@@ -106,13 +107,13 @@ def editproduct(request,id):
             messages.error(request,'Form is not valid')
     context['form'] = form
     return render(request,'editproduct.html',context)
-
+@never_cache
 def deleteproduct(request,id):
     obj = Product.objects.get(id=id)
     obj.delete()
     return redirect('getproduct')
 
-
+@never_cache
 def getusers(request):
     user = Userreg.objects.all()
    
@@ -136,7 +137,7 @@ def getusers(request):
 #     context['form'] = form
 #     return render(request,'editusers.html',context)
 
-
+@never_cache
 def blockuser(request,id):
     obj = Userreg.objects.get(id=id)
     if obj.is_active == True:
@@ -145,7 +146,7 @@ def blockuser(request,id):
         obj.is_active=True
     obj.save()
     return redirect('getusers')
-
+@never_cache
 def addcategory(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -180,7 +181,7 @@ def addcategory(request):
 #     context['form'] = form
 #     return render(request,'editcoupon.html',context)
 
-
+@never_cache
 def editcategory(request,id):
     context = {}
     obj = Category.objects.get(id=id)
@@ -195,7 +196,7 @@ def editcategory(request,id):
     context['form'] = form
     return render(request,'editcategory.html',context)
 
-
+@never_cache
 def getcategory(request):
     cat = Category.objects.all()
     context = {
@@ -204,13 +205,13 @@ def getcategory(request):
     }
     return render(request,'categorylists.html',context)
 
-
+@never_cache
 def deletecategory(request,id):
     obj = Category.objects.get(id=id)
     obj.delete()
     return redirect('getcategory')
 
-
+@never_cache
 def adminlogin(request):
     if request.user.is_authenticated and request.user.is_staff:
         return redirect('adminpage')
@@ -228,11 +229,11 @@ def adminlogin(request):
             return render(request,'adminlogin.html')
     return render(request,'adminlogin.html')
 
-
+@never_cache
 def adminlogout(request):
     logout(request)
     return redirect('adminlogin')
-
+@never_cache
 def displayorderadmin(request,total=0):
     obj = OrderProduct.objects.all()
     paginator = Paginator (obj, 4)
@@ -243,7 +244,7 @@ def displayorderadmin(request,total=0):
         'abc':'abc'
     }
     return render(request,'adminorderlist.html',context)
-
+@never_cache
 def editorderadmin(request,id):
     print('in edit order')
     if request.method == 'POST':
@@ -253,7 +254,7 @@ def editorderadmin(request,id):
         return redirect('displayorderadmin')
     else:
         return redirect('displayorderadmin')
-
+@never_cache
 def statusOrder(request,id):
     if request.method == "GET":
         status=request.GET.get('status')
@@ -273,7 +274,7 @@ def statusOrder(request,id):
     #     'product':paged_products
     # }
 
-
+@never_cache
 def displaycoupon(request):
     obj = CouponCode.objects.all()
     paginator = Paginator (obj, 3)
@@ -288,7 +289,7 @@ def displaycoupon(request):
 # def chart(request):
 #     return render(request,'chart.html')      
     
-
+@never_cache
 def addCoupon(request):
     if request.method == 'POST':
         form = CouponApplyForm(request.POST)
@@ -309,7 +310,7 @@ def addCoupon(request):
         }
         return render(request,'addcoupon.html',context)
 
-
+@never_cache
 def editcoupon(request,id):
     context = {}
     obj = CouponCode.objects.get(id=id)
@@ -323,7 +324,7 @@ def editcoupon(request,id):
             messages.error(request,'Form is not valid')
     context['form'] = form
     return render(request,'editcoupon.html',context)
-
+@never_cache
 def deletecoupon(request,id):
     obj = CouponCode.objects.get(id=id)
     obj.delete()
@@ -378,7 +379,7 @@ def deletecoupon(request,id):
 
 
 
-
+@never_cache
 def salesReport(request):
     print("Im innnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
     
@@ -437,7 +438,7 @@ def salesReport(request):
 
 
 
-
+@never_cache
 def export_csv(request):
     order_data = OrderProduct.objects.all()
     response = HttpResponse(content_type='text/csv')
@@ -448,7 +449,7 @@ def export_csv(request):
         writer.writerow([data.order.order_number, data.user.username, data.quantity,data.created_at, data.payment.amount_paid,data.payment.payment_method])
     return response
     
-
+@never_cache
 def export_excel(request):
     order_data = OrderProduct.objects.all()
     response = HttpResponse(content_type='application/ms-excel')
@@ -478,7 +479,7 @@ def export_excel(request):
 
     return response
 
-
+@never_cache
 def displaycatoffer(request):
     coupon = CategoryOffer.objects.all()
     paginator = Paginator (coupon, 3)
@@ -490,7 +491,7 @@ def displaycatoffer(request):
     return render(request,'displaycatoffer.html',context)
 
 
-
+@never_cache
 def addcatoffer(request):
     if request.method == 'POST':
         form = CategoryOfferForm(request.POST)
@@ -512,7 +513,7 @@ def addcatoffer(request):
         return render(request,'addcatoffer.html',context)
 
 
-
+@never_cache
 def editcatoffer(request,id):
     context = {}
     obj = CategoryOffer.objects.get(id=id)
@@ -531,13 +532,13 @@ def editcatoffer(request,id):
 #     obj = CouponCode.objects.get(id=id)
 #     obj.delete()
 #     return redirect('displaycoupon')
-
+@never_cache
 def deletecatoffer(request,id):
     obj = CategoryOffer.objects.get(id=id)
     obj.delete()
     return redirect("displaycatoffer")
 
-
+@never_cache
 def displayprooffer(request):
     coupon = ProductOffer.objects.all()
     context = {
@@ -545,7 +546,7 @@ def displayprooffer(request):
     }
     return render(request,'displayprooffer.html',context)
 
-
+@never_cache
 def editprooffer(request,id):
     context = {}
     obj = ProductOffer.objects.get(id=id)
@@ -567,14 +568,14 @@ def editprooffer(request,id):
 #     return redirect("displaycatoffer")
 
 
-
+@never_cache
 def deleteprooffer(request,id):
     obj = ProductOffer.objects.get(id=id)
     obj.delete()
     return redirect('displayprooffer')
 
 
-
+@never_cache
 def orderdetail(request,id):
     order = Order.objects.get(id=id)
     items = order.orderproduct_set.all()

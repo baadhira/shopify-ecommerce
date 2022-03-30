@@ -12,8 +12,8 @@
         </div>
         <div class="col-lg-6 col-md-6 col-12">
           <ul class="breadcrumb-nav">
-            <li><a href="index-2.html"><i class="lni lni-home"></i> Home</a></li>
-            <li><a href="index-2.html">Shop</a></li>
+            <li><a href="{% url 'userpage' %}"><i class="lni lni-home"></i> Home</a></li>
+            <li><a href="{% url 'userpage' %}">Shop</a></li>
             <li>checkout</li>
           </ul>
         </div>
@@ -21,7 +21,16 @@
     </div>
   </div>
 
-
+  {% for message in messages %}
+  <div class="alert {{ message.tags }} alert-dismissible fade show msg-tag" role="alert">
+      {{ message | safe }}
+      <button type="button" class="close msg-close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+  </div>
+  
+  {% endfor %}
+ 
   <section class="checkout-wrapper section">
     <div class="container">
       <div class="row justify-content-center">
@@ -218,7 +227,11 @@
   </section>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
+  <script>
+    $('.msg-close').on('click',function(){
+        $('.msg-tag').hide()
+    })
+</script>
 
 
 {% endblock %}

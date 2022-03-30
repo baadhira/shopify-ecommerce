@@ -26,6 +26,7 @@ import razorpay
 from django.http import HttpResponse
 from django.db.models import Q
 from django.conf import settings
+from django.views.decorators.cache import never_cache
 ''' logger module'''
 import logging
 from django.core.mail import BadHeaderError,send_mail
@@ -39,7 +40,7 @@ from decouple import config
 # Create your views here.
 client = razorpay.Client(auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
 
-
+@never_cache
 def userpage(request):
     now=datetime.now()
     products = Product.objects.all()
@@ -94,7 +95,7 @@ def userpage(request):
     return render(request,'userindex.html',context)
   
 from django.core.paginator import EmptyPage , PageNotAnInteger , Paginator
-
+@never_cache
 def userproductgrid(request):
     product = Product.objects.all()
     catogeries = Category.objects.all().annotate(numpro=Count('product'))
@@ -109,6 +110,7 @@ def userproductgrid(request):
     return render(request,'product-grids.html',context)
 
 
+@never_cache
 
 def usersignup(request):
     if request.method == 'POST':
@@ -136,6 +138,7 @@ def usersignup(request):
         'form' : form
         }
         return render(request,'signup.html',context)
+@never_cache
 
 def userotp(request):
     username = request.session['username'] 
@@ -175,6 +178,7 @@ def userotp(request):
         print(verification.status)
         return render(request,'otp_verfication.html')
 
+@never_cache
 
 def userlogin(request):
     if request.user.is_authenticated and request.user.is_active == False:
@@ -210,11 +214,14 @@ def userlogin(request):
             'form':form
         }
         return render(request,'userlogin.html',context)
+@never_cache
 
 def userlogout(request):
     logout(request)
     return redirect('userlogin')
 
+
+@never_cache
 def userproductdetails(request,id):
     obj = Product.objects.get(id=id)
     print("userproductdetails............",obj)
@@ -223,10 +230,12 @@ def userproductdetails(request,id):
     }
     return render(request,'userproductdetails.html',context)
 
+@never_cache
 def userprofilehome(request):
     return render(request,'userprofilehome.html')
 
-
+    
+@never_cache
 def edituserprofile(request):
     context = {}
     id = request.user.id
@@ -242,13 +251,18 @@ def edituserprofile(request):
             messages.error(request,"Invalid data")
     context['form'] = form
     return render(request,'edituserprofile.html',context)
-
+    
+@never_cache
 def _cart_id(request):
     cart = request.session.session_key
     if not cart:
         cart = request.session.create()
     return cart
 from django.db.models import Count
+
+
+    
+@never_cache
 def filterview(request,id):
     print("enteredddddddd filter view....................")
     category=Category.objects.all()
@@ -259,7 +273,8 @@ def filterview(request,id):
     context = {'product':product,'catogeries':catogeries}
     return render(request, "product-grids.html",context)
 
-
+    
+@never_cache
 def contacts(request):
     if request.method == "POST":
         name=request.POST["name"]
@@ -287,7 +302,8 @@ def contacts(request):
 
     return render (request,"contact.html")
 
-
+    
+@never_cache
 def hightolow(request):  
     product = Product.objects.all().order_by('-price')
     productcount=product.count()
@@ -306,7 +322,8 @@ def hightolow(request):
 #         return redirect('cart')
 #     return redirect('cart')
 
-
+    
+@never_cache
 def lowtohigh(request):
 
     product = Product.objects.all().order_by('price')
@@ -317,6 +334,9 @@ def lowtohigh(request):
  
     context = {'product':product,'catogeries':catogeries,'count':productcount}
     return render(request, "product-grids.html",context)
+
+    
+@never_cache
 def remove_cart(request,product_id, cart_item_id):
         
     product     = get_object_or_404(Product, id=product_id)
@@ -335,7 +355,8 @@ def remove_cart(request,product_id, cart_item_id):
     except:
         pass    
     return redirect('cart')
-
+    
+@never_cache
 def remove_cart_item(request):
     product_id =request.GET['prod_id']
     cart_item_id = request.GET['cartitem']
@@ -349,7 +370,8 @@ def remove_cart_item(request):
     cart_item.delete()
     return JsonResponse({'success':'Item successfully Removed'})
 
-
+    
+@never_cache
 def remove_cart_ajax(request):
     product_id =request.GET['prod_id']
     cart_item_id = request.GET['cart_id']
@@ -375,6 +397,9 @@ def remove_cart_ajax(request):
     except:
         pass    
     return JsonResponse({'success':'Item successfully Removed'})
+
+    
+@never_cache
 def add_cart_ajax(request):
     product_id = request.GET['prod_id']
     cart_item_id = request.GET['cart_id']
@@ -414,7 +439,8 @@ def add_cart_ajax(request):
     #     pass
     # return JsonResponse({'success':"Item successfully Removed"})
 
-
+    
+@never_cache
 def cart(request,total=0,quantity=0,cart_items=None):
     try:
         grand_total = 0 
@@ -441,6 +467,7 @@ def cart(request,total=0,quantity=0,cart_items=None):
     return render(request,'cart.html',context)
 
     
+@never_cache  
 def add_cart(request,id):
     print("entereddd add_cart......................")
     product = Product.objects.get(id=id)
@@ -471,7 +498,8 @@ def add_cart(request,id):
     return redirect('cart')
 
     
-
+    
+@never_cache
 def remove_wish_item(request):
     product_id =request.GET['prodId']
     wishlist_item = Wishlist.objects.get(product = product_id)
@@ -490,7 +518,8 @@ def remove_wish_item(request):
 #     print('productId:',productId)
 #     return JsonResponse('Item was added',safe=False)
     
-
+    
+@never_cache
 def addaddress(request):
     addressconst=   Address.objects.filter(user=request.user)
     user=request.user
@@ -520,7 +549,8 @@ def addaddress(request):
         }
     return render(request,'addaddress.html',context)
 
-
+    
+@never_cache
 def getaddress(request):
     user = request.user
     address = Address.objects.filter(user=user)
@@ -535,11 +565,15 @@ def getaddress(request):
 #     obj.delete()
 #     return redirect('getproduct')
 
-
+    
+@never_cache
 def deleteaddress(request,id):
     obj = Address.objects.get(id=id)
     obj.delete()
     return redirect('getaddress')
+
+    
+@never_cache
 def editaddress(request,id):
     context = {}
     obj = Address.objects.get(id=id)
@@ -555,7 +589,8 @@ def editaddress(request,id):
     return render(request,'editaddress.html',context)
 
 
-
+    
+@never_cache
 def checkout(request, total=0, quantity=0, cart_items=None):
     try:
        
@@ -598,7 +633,8 @@ def checkout(request, total=0, quantity=0, cart_items=None):
 
 #     return render(request,'checkout.html',context)
 
-
+    
+@never_cache
 def addaddress(request):
     addressconst=   Address.objects.filter(user=request.user)
     user=request.user
@@ -630,7 +666,8 @@ def addaddress(request):
 
 
 
-
+    
+@never_cache
 def placeorder(request,total=0,quantity=0):
     try:
         print("addressid :: first tryyyyyyyyyyyyy")
@@ -740,7 +777,8 @@ def placeorder(request,total=0,quantity=0):
             print("lasttttttttttttttttttttttttttttttttt")
             return redirect('placeorder')
 
-
+    
+@never_cache
 def codorder(request,order_number,total=0,quantity=0):
     print("cod function........")
     now = datetime.now()
@@ -894,7 +932,8 @@ def codorder(request,order_number,total=0,quantity=0):
             print("no order numbers found, except working")
             return redirect('userpage')
     
-
+    
+@never_cache
 def paypalpayment(request):
     body = json.loads(request.body)
    
@@ -938,6 +977,8 @@ def paypalpayment(request):
     }   
 
     return JsonResponse(data)
+    
+@never_cache
 @csrf_exempt
 def razorpayorder(request):
     order_number = request.POST['order_number']
@@ -1036,6 +1077,7 @@ def razorpayorder(request):
     # print('all work done in razorpayorder, returning jsonresponse.')
     # return JsonResponse(payment)
     
+@never_cache
 def razorpayment(request):
    
     order_number = request.GET.get('order_number')
@@ -1088,7 +1130,8 @@ def razorpayment(request):
     except (Payment.DoesNotExist, Order.DoesNotExist):
         return redirect('userpage')
 
-
+    
+@never_cache
 def userorderlist(request):
     ordered_products =  OrderProduct.objects.filter(user = request.user).order_by('-created_at')
     paginator = Paginator (ordered_products, 4)
@@ -1098,7 +1141,8 @@ def userorderlist(request):
         'ordered_products' : paged_orders
     }
     return render(request,'userorderlist.html',context)
-
+    
+@never_cache
 def cancel_order(request,id):
     if OrderProduct.objects.filter(id=id).exists():
         ordered_product = OrderProduct.objects.get(id=id)
@@ -1109,6 +1153,8 @@ def cancel_order(request,id):
         return redirect("userorderlist")
     
     return redirect('userorderlist')
+    
+@never_cache
 def return_order(request,id):
     if OrderProduct.objects.filter(id=id).exists():
         ordered_product = OrderProduct.objects.get(id=id)
@@ -1123,7 +1169,8 @@ def return_order(request,id):
 #     if OrderProduct.objects.filter(id=id).exists():
 #         ordered_product = OrderProduct.objects.get(id=id)
 #         ordered_product
-
+    
+@never_cache
 def user_order_return(request,order):
     order = OrderProduct.objects.get(user = request.user, order_number = order)
     # print(order, 'this is the order')
@@ -1137,7 +1184,8 @@ def user_order_return(request,order):
     return redirect('userorderlist')
 
 
-
+    
+@never_cache
 def ClaimCoupon(request):
     now = timezone.now()
     form = CouponApplyForm(request.POST)
@@ -1151,7 +1199,8 @@ def ClaimCoupon(request):
     return redirect('placeorder')
 
 from django.views.decorators.csrf import csrf_exempt
-
+    
+@never_cache
 @csrf_exempt
 def verifyCoupon(request):
     
@@ -1233,13 +1282,15 @@ def verifyCoupon(request):
                 'success' : 'no coupon'
             }
             return JsonResponse(context)
-
+    
+@never_cache
 def _wishcart_id(request):
     wishcart        = request.session.session_key
     if not wishcart:
         wishcart    = request.session.create()
     return wishcart
-
+    
+@never_cache
 @login_required(login_url='userlogin')
 def wishlist(request):
     wishlist_items = Wishlist.objects.filter(user = request.user)
@@ -1247,8 +1298,9 @@ def wishlist(request):
         'wishlist_items': wishlist_items,
     }
     return render (request, 'wishlist.html',context)
-
-
+    
+@never_cache
+@login_required(login_url='userlogin')
 @csrf_exempt
 def add_wishlist(request):    
     if request.user.is_authenticated:
@@ -1280,10 +1332,12 @@ def add_wishlist(request):
         'wishlist_items': wishlist_items,
     }
     return render (request, 'wishlist.html',context)
-
+    
+@never_cache
 def ordersuccess(request):
     return render(request,'ordersucess.html')
-                        
+    
+@never_cache                       
 def search(request):
     print("entered search function......................")
     if "keyword" in request.GET:
