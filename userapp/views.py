@@ -55,13 +55,13 @@ def userpage(request):
             p_offer = prod_offer.discount
             print("type of dicount/////////",type(p_offer))
         except:
-            pass
+            p_offer = ''
 
         try:
             categ_offer = CategoryOffer.objects.get(category_id=product.category,valid_from__lte=now, valid_to__gte=now, is_active = True)
             c_offer = categ_offer.discount
         except:
-            pass
+            c_offer = ''
 
         if p_offer>c_offer:
             disc_price = product.mrp_price - (product.mrp_price * p_offer)/100
@@ -77,14 +77,14 @@ def userpage(request):
             product.price = product.mrp_price
             product.save()
 
-    # cartitem = Cart_Item.objects.filter(cart__cart_id = _cart_id(request))
+    cartitem = Cart_Item.objects.filter(cart__cart_id = _cart_id(request))
     print("cart item in userpage")
     wishlist = Wishlist.objects.all()
     product_offer=ProductOffer.objects.all()
     category_offer=CategoryOffer.objects.all()
     context = {
         'products':products,
-        # 'cartitem' :cartitem,
+        'cartitem' :cartitem,
         'wishlist' : wishlist,
         'banners' : banners,
         'catogeries':catogeries,
