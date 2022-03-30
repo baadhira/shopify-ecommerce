@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR=os.path.join(BASE_DIR,"templates")
@@ -55,8 +56,8 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'mypro.urls'
 AUTH_USER_MODEL='adminapp.Userreg'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-RAZOR_KEY_ID = 'rzp_test_6GkCW4COkiHFx5'
-RAZOR_KEY_SECRET = '5oh9XhbfnzkNMfj5t4NTGWJY'
+RAZOR_KEY_ID = config('razor_key')
+RAZOR_KEY_SECRET = config('razor_secret')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -90,10 +91,10 @@ WSGI_APPLICATION = 'mypro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.postgresql_psycopg2',
-        'NAME':'ecom',
-        'USER':'postgres',
-        'PASSWORD':'6282',
-        'HOST':'localhost',
+        'NAME':config('database_name'),
+        'USER':config('database_user'),
+        'PASSWORD':config('database_password'),
+        'HOST':config('database_host'),
         'PORT':'5432',
     }
 }
@@ -153,8 +154,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'baadhiraabdulla5@gmail.com'
-EMAIL_HOST_PASSWORD = 'hudha@123'
+EMAIL_HOST_USER =config('email_mail')
+EMAIL_HOST_PASSWORD = config('email_pass')
 
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {

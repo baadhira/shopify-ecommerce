@@ -11,7 +11,7 @@ from adminapp.forms import *
 from adminapp.models import *
 import os
 from twilio.rest import Client
-from .private import TWILIO_ACCOUNT_SID,TWILIO_AUTH_TOKEN,SERVICES_SID
+
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
