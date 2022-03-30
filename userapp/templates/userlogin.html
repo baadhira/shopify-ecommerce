@@ -11,15 +11,18 @@
 </div>
 
 {% endfor %}
+<div class="d-flex align-items-center"  style=" height: 400px;">
+    <form action="{% url 'userlogin' %}" method="POST" novalidate>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary mt-3 w-100" >Login</button>
+    </form>
+</div>
+</div>
+
 <script>
     $('.msg-close').on('click',function(){
         $('.msg-tag').hide()
     })
 </script>
-   <form action="{% url 'userlogin' %}" method="POST" novalidate>
-       {% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit" style="margin-bottom: 10px;" class="btn btn-primary" >Login</button>
-   </form>
-</div>
 {% endblock %}

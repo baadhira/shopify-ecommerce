@@ -2,170 +2,127 @@
 
 
 
+<div class="container">
+  <div class="row justify-content-around col-12">
 
-<div style="display:flex; padding-left:100px;" class="col-md-12 col-sm-12">
-
-  {% for i in address %}
-
-  <div  class="card">
-    <div class="card-body d-flex flex-column gap-3">
-      <div class="d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">{{i.type}}</h5>
+    {% for i in address %}
+    <div class="card col-md-6">
+      <div class="card-body d-flex flex-column gap-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">{{i.type}}</h5>
+        </div>
+        <div>{{ i.first_name }}</div>
+        <div>{{ i.address_lane_1 }}</div>
+        <div>{{ i.city }}</div>
+        <div>{{ i.district }}</div>
+        <div>{{ i.pincode }}</div>
+        <div><i class="bi bi-telephone me-2"></i> {{i.mobile}}</div>
       </div>
-      <div>{{ i.first_name }}</div>
-      <div>{{ i.address_lane_1 }}</div>
-      <div>{{ i.city }}</div>
-      <div>{{ i.district }}</div>
-      <div>{{ i.pincode }}</div>
-      <div><i class="bi bi-telephone me-2"></i> {{i.mobile}}</div>
+    </div>
+    {% endfor %}
+
+
+    <!-- <div  style="width:30rem;" > </div> -->
+
+
+
+    <div class="card mt-2 col-md-6" style="width: 18rem;">
+
+
+      <div class="col-md-12 px-3 mt-3">
+        <input type="text" id="couponInp" class="form-control w-100">
+        <span id="couponAlert" style="color:orange;" class="text-center"></span>
+        <span id="couponSuccessAlert" style="color:green;" class="text-center"></span>
+        <button onclick="claimCoupon()" class="btn w-100 btn-primary btn-block" id="claimButton">Claim Coupons</button>
+      </div>
+
+
+
+
+      <div class="card-body">
+
+
+        <div id="paypal-button-container" class="position-relative">
+
+
+          <a href="{% url 'codorder' order.order_number %}" type="submit"
+            class="btn btn-primary mb-2 w-100">Cash on delivery </a>
+
+
+          <button value={{order.order_number}} class="btn btn-primary btn-block w-100 mb-2 "
+            id="rzp-button1">Pay with Razorpay</button>
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <table class="row mt-3"><tbody class="col-md-6 text-center">
+      <tr ><th class="px-2 col-md-2">Product</th>
+        <th class="px-2 col-md-2">Name</th>
+        <th class="px-2 col-md-2">Price</th></tr>
+        {% for cart_item in cart_items %}
+      <tr><td class="px-2 col-md-2"><a href="product-details.html"><img class="col-12" src="{{ cart_item.product.product_image1.url }}" alt="#" /></a></td>
+        <td class="px-2 col-md-2">{{ cart_item.product.product_name }}</td>
+        <td class="px-2 col-md-2">{{ cart_item.sub_total }}</td></tr>
+        {% endfor %}
+    </tbody></table>
+
+
+  <!-- <div class="row mb-3">
+    <div class="col-lg-1 col-md-1 col-12"></div>
+    <div class="col-lg-4 col-md-3 col-12">
+      <p>Product Name</p>
+    </div>
+    <div class="col-lg-2 col-md-2 col-12">
+      <p>Subtotal</p>
+    </div>
+  </div>
+  {% for cart_item in cart_items %}
+  <div class="cart-single-list">
+    <div class="row align-items-center">
+      <div class="col-lg-1 col-md-1 col-12">
+        <a href="product-details.html"><img src="{{ cart_item.product.product_image1.url }}" alt="#" /></a>
+      </div>
+      <div style="width:13rem" class="col-lg-4 col-md-3 col-12">
+        <h5 class="product-name">
+          <a href="product-details.html">{{ cart_item.product.product_name }}</a>
+        </h5>
+      </div>
+      <div class="col-lg-2 col-md-2 col-12">
+        <div class="col">
+          <div class="input-group input-spinner">
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2 col-12">
+        <p>{{ cart_item.sub_total }}</p>
+      </div>
+      <div class="col-lg-2 col-md-2 col-12">
+      </div>
     </div>
   </div>
   {% endfor %}
-
-
-    <div  style="width:30rem;" > </div>
-
-
-
-  <div    class="card" style="width: 18rem;margin-top : 2rem">
-
-  
-    <div  style="width:10rem; " class="col-md-4 " >
-      <input style="width:255px; margin-left : 1rem; margin-top:0.5rem" type="text" id="couponInp" class="form-control mb-2" >
-      <span id="couponAlert" style="color:orange;" class="text-center"></span>
-      <span id="couponSuccessAlert" style="color:green;" class="text-center"></span>
-      <button style="margin-left : 1rem; width:255px;" onclick="claimCoupon()" class="btn btn-primary btn-block mb-2 mt-2" id="claimButton">Claim Coupons</button>
-      </div>
-
-
-
-
-    <div class="card-body">
-     
-
-      <div    id="paypal-button-container">
-
-
-        <a style="width:255px;" href="{% url 'codorder' order.order_number %}" type="submit" class="btn btn-primary mb-3" >Cash on delivery </a>
-      
-      
-        <button  style="width:255px;" value={{order.order_number}} class="btn btn-primary btn-block mb-2 "id="rzp-button1">Pay with Razorpay</button>
-      
-      
-      </div>
-    </div>
-  </div>
-    
-</div>
-
-
-
-<div class="row mb-3">
-  <div class="col-lg-1 col-md-1 col-12"></div>
-  <div class="col-lg-4 col-md-3 col-12">
-    <p>Product Name</p>
-  </div>
-  <!-- <div class="col-lg-2 col-md-2 col-12"> 
-          <p>Quantity</p>
-        </div> -->
-  <div class="col-lg-2 col-md-2 col-12">
-    <p>Subtotal</p>
-  </div>
-  <!-- <div class="col-lg-2 col-md-2 col-12">
-          <p>Discount</p>
-        </div> -->
-  <!-- <div class="col-lg-1 col-md-2 col-12">
-          <p>Remove</p>
-        </div> -->
-</div>
-{% for cart_item in cart_items %}
-<div class="cart-single-list">
-  <div class="row align-items-center">
-    <div class="col-lg-1 col-md-1 col-12">
-      <a href="product-details.html"
-        ><img src="{{ cart_item.product.product_image1.url }}" alt="#"
-      /></a>
-    </div>
-    <div style="width:13rem"  class="col-lg-4 col-md-3 col-12">
-      <h5 class="product-name">
-        <a href="product-details.html">{{ cart_item.product.product_name }}</a>
-      </h5>
-      <!-- <p class="product-des">
-              <span><em>Type:</em> Mirrorless</span>
-              <span><em>Color:</em> Black</span>
-            </p> -->
-    </div>
-    <div class="col-lg-2 col-md-2 col-12">
-      <div class="col">
-        <div class="input-group input-spinner">
-          <!-- <div class="input-group-prepend">
-                <a href="" class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus"></i> </a>
-                </div> -->
-          <!-- <input type="text" class="form-control"  value=""> -->
-          <!-- <div class="input-group-append">
-                <a href="" class="btn btn-light" type="button" id="button-minus"> <i class="fa fa-plus"></i> </a>
-                </div> -->
-        </div>
-        <!-- input-group.// -->
-      </div>
-      <!-- <div class="count-input">
-              <select class="form-control">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
-            </div> -->
-    </div>
-    <div class="col-lg-2 col-md-2 col-12">
-      <p>{{ cart_item.sub_total }}</p>
-    </div>
-    <div class="col-lg-2 col-md-2 col-12">
-    
-    </div>
-    <!-- <div class="col-lg-1 col-md-2 col-12">
-            <a class="remove-item" href=""><i class="lni
-                lni-close"></i></a>
-          </div> -->
-  </div>
-</div>
-{% endfor %}
-
+</div> -->
 
 <style>
+  @media screen and (max-width: 480px) {
 
 
 
-@media screen and (max-width: 480px) 
+    #paypal-button-container {
+
+      padding-left: 50px;
+
+      width: 10px;
+    }
 
 
 
-
-
-
-
-
-
-
-
-{
-
-
-
-#paypal-button-container{
-
-padding-left:50px;
-
-width:10px;
-}
-
-
-
-}
-
-
-
+  }
 </style>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
@@ -174,84 +131,84 @@ width:10px;
 
 
 
-function rzpPayment(order_number=order_number){
-       var order_number = order_number
-  var data  = {'order_number': order_number,  "csrf_token": '{{csrf_token}}'} 
-  $.ajax({
-      url : "{% url 'razorpayorder'  %}",
+  function rzpPayment(order_number = order_number) {
+    var order_number = order_number
+    var data = { 'order_number': order_number, "csrf_token": '{{csrf_token}}' }
+    $.ajax({
+      url: "{% url 'razorpayorder'  %}",
       method: "POST",
-      data : data,
-      success : function(response){
+      data: data,
+      success: function (response) {
         console.log("arrived here ", response)
         var order_id = response.id
-        
-        var amount = response.amount 
-        var order_nr = response.receipt  
-        console.log(order_id,'order_id')
-        console.log(amount,'amount')
-        console.log(order_nr,'order number')
 
-        makeRazorPayment(order_id, amount, order_nr);      
-          
+        var amount = response.amount
+        var order_nr = response.receipt
+        console.log(order_id, 'order_id')
+        console.log(amount, 'amount')
+        console.log(order_nr, 'order number')
+
+        makeRazorPayment(order_id, amount, order_nr);
+
       }
-  })
-}
-function makeRazorPayment(order_id, amount, order_number){
-  console.log(order_number,"order numberrrrrrr")
-  console.log('trying to make payment here')
-  var redirect_url = "{% url 'razorpayment' %}"
-  var options = {
-  "key": "rzp_test_6GkCW4COkiHFx5", // Enter the Key ID generated from the Dashboard
-  "amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-  "currency": "INR",
-  "name": "Shopify Payment",
-  "description": "Test Transaction",
-  "image": "https://example.com/your_logo",
-  "order_id": order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 2
-  "handler": function (response){       
-      console.log(response);
-      // alert(response.razorpay_payment_id);
-      // alert(response.razorpay_order_id);
-      // alert(response.razorpay_signature);
-      window.location.href = redirect_url + '?order_number='+order_number+'&payment_id='+response.razorpay_payment_id; 
-      let timerInterval
-      Swal.fire({
-        title: 'Thanks for the order!',
-        html: 'Your order confirmation will be generated in <b></b> milliseconds.',
-        timer: 6000,
-        timerProgressBar: true,
-        didOpen: () => {
-          Swal.showLoading()
-          const b = Swal.getHtmlContainer().querySelector('b')
-          timerInterval = setInterval(() => {
-            b.textContent = Swal.getTimerLeft()
-          }, 100)
-        },
-        willClose: () => {
-          clearInterval(timerInterval)
-        }
-      }).then((result) => {
-        /* Read more about handling dismissals below */
-        if (result.dismiss === Swal.DismissReason.timer) {
-          console.log('I was closed by the timer')
-        }
-      })
-      
-  },
-  // <!-- "prefill" : {    
-  //     "name": "{{first_name}} {{last_name}}",
-  //     "email": "{{email}}",
-  //     "contact": "{{phone}}"
-  // }, -->
-  "notes": {
-      "address": "Razorpay Corporate Office"
-  },
-  "theme": {
-      "color": "#3399cc"
+    })
   }
-};
-var rzp1 = new Razorpay(options);
-rzp1.on('payment.failed', function (response){
+  function makeRazorPayment(order_id, amount, order_number) {
+    console.log(order_number, "order numberrrrrrr")
+    console.log('trying to make payment here')
+    var redirect_url = "{% url 'razorpayment' %}"
+    var options = {
+      "key": "rzp_test_6GkCW4COkiHFx5", // Enter the Key ID generated from the Dashboard
+      "amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "currency": "INR",
+      "name": "Shopify Payment",
+      "description": "Test Transaction",
+      "image": "https://example.com/your_logo",
+      "order_id": order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 2
+      "handler": function (response) {
+        console.log(response);
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
+        window.location.href = redirect_url + '?order_number=' + order_number + '&payment_id=' + response.razorpay_payment_id;
+        let timerInterval
+        Swal.fire({
+          title: 'Thanks for the order!',
+          html: 'Your order confirmation will be generated in <b></b> milliseconds.',
+          timer: 6000,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading()
+            const b = Swal.getHtmlContainer().querySelector('b')
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft()
+            }, 100)
+          },
+          willClose: () => {
+            clearInterval(timerInterval)
+          }
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            console.log('I was closed by the timer')
+          }
+        })
+
+      },
+      // <!-- "prefill" : {    
+      //     "name": "{{first_name}} {{last_name}}",
+      //     "email": "{{email}}",
+      //     "contact": "{{phone}}"
+      // }, -->
+      "notes": {
+        "address": "Razorpay Corporate Office"
+      },
+      "theme": {
+        "color": "#3399cc"
+      }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response) {
       alert(response.error.code);
       alert(response.error.description);
       alert(response.error.source);
@@ -259,17 +216,17 @@ rzp1.on('payment.failed', function (response){
       alert(response.error.reason);
       alert(response.error.metadata.order_id);
       alert(response.error.metadata.payment_id);
-});
+    });
 
-rzp1.open();
- 
-}
-document.getElementById('rzp-button1').onclick = function(e){
-var order_number = e.target.value
-console.log(order_number,"sdds")
-rzpPayment(order_number);
+    rzp1.open();
 
-}
+  }
+  document.getElementById('rzp-button1').onclick = function (e) {
+    var order_number = e.target.value
+    console.log(order_number, "sdds")
+    rzpPayment(order_number);
+
+  }
 </script>
 
 
@@ -338,24 +295,24 @@ rzpPayment(order_number);
                 status: orderData.status,
               }),
             })
-            .then((response) => response.json())
-                        .then((data) => {
-                            window.location.href = redirect_url + '?order_number='+data.order_number+'&payment_id='+data.transID; 
-                        });
+              .then((response) => response.json())
+              .then((data) => {
+                window.location.href = redirect_url + '?order_number=' + data.order_number + '&payment_id=' + data.transID;
+              });
 
           }
           // Successful capture! For demo purposes:
-       
+
           var transaction = orderData.purchase_units[0].payments.captures[0];
           alert(
             "Transaction " +
-              transaction.status +
-              ": " +
-              transaction.id +
-              "\n\nSee console for all available details"
+            transaction.status +
+            ": " +
+            transaction.id +
+            "\n\nSee console for all available details"
           );
 
-    
+
         });
       },
     })
@@ -363,48 +320,48 @@ rzpPayment(order_number);
 
 
 
-    
-    function claimCoupon(){
+
+  function claimCoupon() {
     document.getElementById('couponAlert').innerText = ""
-    console.log("I am here")  
+    console.log("I am here")
     /* alert("coupon claim button clicked") */
     var code = document.getElementById('couponInp').value
-     /* alert(code) */
+    /* alert(code) */
     var data = {
-      'code' : code, 
-      'csrf_token':'{{csrf_token}}'
+      'code': code,
+      'csrf_token': '{{csrf_token}}'
     }
     console.log(code)
     $.ajax({
       url: "{% url 'verifyCoupon' %}",
-      
-      method:"POST",
-      data:data,
-   
-      success:function(response){
+
+      method: "POST",
+      data: data,
+
+      success: function (response) {
         var coupon = response.success
-        if (coupon == "valid"){
+        if (coupon == "valid") {
 
           console.log("Coupon Verified Successfully")
           document.getElementById('couponSuccessAlert').innerText = "Coupon successfully applied."
           document.getElementById('couponInp').hidden = true
-          document.getElementById('claimButton').disabled = true  
+          document.getElementById('claimButton').disabled = true
           document.getElementById('discountsID').hidden = false
           document.getElementById('discGrandTotal').innerText = response.total_after_coupon
           document.getElementById('discAmount').innerText = response.discount_amount
-         disAmount =  response.total_after_coupon
+          disAmount = response.total_after_coupon
 
-        }else if (coupon == "coupon already used"){
+        } else if (coupon == "coupon already used") {
           document.getElementById('couponAlert').innerText = "Coupon already used."
-          
+
           console.log("coupon already used")
-        }else{
+        } else {
           document.getElementById('couponAlert').innerText = "Invalid Coupon..!!"
-          
+
           console.log("not a valid coupon")
+        }
       }
-      }
-    }) 
+    })
   }
 
 

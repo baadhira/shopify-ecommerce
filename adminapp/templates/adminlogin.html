@@ -87,12 +87,27 @@ h1, h2, h3, h4, h5, h6, a {
   }
 }
 </style>
-<form action="{% url 'adminlogin' %}"  method="POST" id="loginForm">
+<form action="{% url 'adminlogin' %}"  method="POST" id="loginForm" novalidate>
 
   <div class="login">
     <div class="login-header">
       <h1>Admin Login</h1>
+
     </div>
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible fade show msg-tag" role="alert">
+        {{ message | safe }}
+        <button type="button" class="close msg-close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    
+    {% endfor %}
+    <script>
+        $('.msg-close').on('click',function(){
+            $('.msg-tag').hide()
+        })
+    </script>
     {% csrf_token %}
     <div class="login-form">
       <h3>Username:</h3>

@@ -20,6 +20,7 @@ urlpatterns = [
     path('remove_cart_item/',views.remove_cart_item,name='remove_cart_item'),
     path('addaddress/',views.addaddress,name='addaddress'),
     path('getaddress/',views.getaddress,name='getaddress'),
+    path('deleteaddress/<str:id>',views.deleteaddress,name='deleteaddress'),
     path('checkout/',views.checkout,name='checkout'),
     path('placeorder/',views.placeorder,name='placeorder'),
     path('remove_cart/<int:product_id>/<int:cart_item_id>/',views.remove_cart, name='remove_cart'),
@@ -38,6 +39,7 @@ urlpatterns = [
     path('contacts/',views.contacts,name='contacts'),
     path('hightolow/',views.hightolow,name='hightolow'),
     path('lowtohigh/',views.lowtohigh,name='lowtohigh'),
+    path('editaddress/<str:id>',views.editaddress,name='editaddress'),
 
    
     path('user_order_return/',views.user_order_return,name='user_order_return'),

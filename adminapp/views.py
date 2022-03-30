@@ -217,6 +217,9 @@ def adminlogin(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        if username == '' and password == '':
+            messages.error(request,"enter valid data")
+            return redirect('adminlogin')
         user = authenticate(username=username,password=password)
         if user is not None and user.is_staff == True :
             return redirect('adminpage')

@@ -78,12 +78,17 @@ def userpage(request):
 
     cartitem = Cart_Item.objects.filter(cart__cart_id = _cart_id(request))
     wishlist = Wishlist.objects.all()
+    product_offer=ProductOffer.objects.all()
+    category_offer=CategoryOffer.objects.all()
     context = {
         'products':products,
         'cartitem' :cartitem,
         'wishlist' : wishlist,
         'banners' : banners,
         'catogeries':catogeries,
+        'product_offer' : product_offer,
+        'category_offer' : category_offer
+
     }
     
     return render(request,'userindex.html',context)
@@ -212,6 +217,7 @@ def userlogout(request):
 
 def userproductdetails(request,id):
     obj = Product.objects.get(id=id)
+    print("userproductdetails............",obj)
     context = {
         'obj':obj
     }
@@ -408,19 +414,52 @@ def add_cart_ajax(request):
     #     pass
     # return JsonResponse({'success':"Item successfully Removed"})
 
+
+def cart(request,total=0,quantity=0,cart_items=None):
+    try:
+        grand_total = 0 
+        if request.user.is_authenticated:
+            cart_items = Cart_Item.objects.filter(user=request.user,is_active = True)
+            print("user authenticated  cart..................",cart_items)
+        else:
+            cart = Cart.objects.get(cart_id=_cart_id(request))
+            cart_items = Cart_Item.objects.filter(cart=cart,is_active = True)
+            print("else  cart..................",cart_items)
+        for cart_item in cart_items:
+            total += (cart_item.product.price * cart_item.quantity) 
+            quantity += cart_item.quantity
+        grand_total = total
+        print("cart grand total........",grand_total)
+    except ObjectDoesNotExist:
+        return redirect('cart')
+    context = {
+        'total' : total,
+        'quantity' : quantity,
+        'cart_items' : cart_items,
+        'grand_total' : grand_total
+    }
+    return render(request,'cart.html',context)
+
+    
 def add_cart(request,id):
+    print("entereddd add_cart......................")
     product = Product.objects.get(id=id)
+    print("product add_cart...........",product)
     try:
         cart = Cart.objects.get(cart_id = _cart_id(request))
+        print("cart id...........",cart)
     except Cart.DoesNotExist:
         cart = Cart.objects.create(
             cart_id = _cart_id(request)
         )
+        print("except cart id...........",cart)
         cart.save()
     try:
         cart_item = Cart_Item.objects.get(product=product,cart=cart)
+        print("cart itemmmmmmmmmm .....................add_cart",cart_item)
         cart_item.quantity += 1
         cart_item.save()
+        print("cart itemmmmmmmmmm .....................add_cart........after save",cart_item)
     except Cart_Item.DoesNotExist:
         cart_item = Cart_Item.objects.create(
             product = product,
@@ -440,27 +479,7 @@ def remove_wish_item(request):
     return JsonResponse({'success':'Item successfully Removed'})
     
 
-def cart(request,total=0,quantity=0,cart_item=None):
-    try:
-        grand_total = 0 
-        if request.user.is_authenticated:
-            cart_items = Cart_Item.objects.filter(user=request.user,is_active = True)
-        else:
-            cart = Cart.objects.get(cart_id=_cart_id(request))
-            cart_items = Cart_Item.objects.filter(cart=cart,is_active = True)
-        for cart_item in cart_items:
-            total += (cart_item.product.price * cart_item.quantity) 
-            quantity += cart_item.quantity
-        grand_total = total
-    except ObjectDoesNotExist:
-        return redirect('cart')
-    context = {
-        'total' : total,
-        'quantity' : quantity,
-        'cart_items' : cart_items,
-        'grand_total' : grand_total
-    }
-    return render(request,'cart.html',context)
+
 
 
 # def updateItem(request):
@@ -503,14 +522,37 @@ def addaddress(request):
 
 
 def getaddress(request):
-    address = Address.objects.all()
+    user = request.user
+    address = Address.objects.filter(user=user)
     context = {
         'address':address
     }
     return render(request,'useraddress.html',context)
 
 
+# def deleteproduct(request,id):
+#     obj = Product.objects.get(id=id)
+#     obj.delete()
+#     return redirect('getproduct')
 
+
+def deleteaddress(request,id):
+    obj = Address.objects.get(id=id)
+    obj.delete()
+    return redirect('getaddress')
+def editaddress(request,id):
+    context = {}
+    obj = Address.objects.get(id=id)
+    form = AddressForm(instance=obj)
+    if request.method == 'POST':
+        form = AddressForm(request.POST,instance=obj)
+        if form.is_valid():
+            form.save()
+            return redirect('getaddress')
+        else:
+            messages.error(request,"Invalid data")
+    context['form'] = form
+    return render(request,'editaddress.html',context)
 
 
 
@@ -1198,7 +1240,7 @@ def _wishcart_id(request):
         wishcart    = request.session.create()
     return wishcart
 
-
+@login_required(login_url='userlogin')
 def wishlist(request):
     wishlist_items = Wishlist.objects.filter(user = request.user)
     context = {
