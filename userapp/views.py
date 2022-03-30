@@ -55,13 +55,13 @@ def userpage(request):
             p_offer = prod_offer.discount
             print("type of dicount/////////",type(p_offer))
         except:
-            p_offer = ''
+            p_offer = 0
 
         try:
             categ_offer = CategoryOffer.objects.get(category_id=product.category,valid_from__lte=now, valid_to__gte=now, is_active = True)
             c_offer = categ_offer.discount
         except:
-            c_offer = ''
+            c_offer = 0
 
         if p_offer>c_offer:
             disc_price = product.mrp_price - (product.mrp_price * p_offer)/100
