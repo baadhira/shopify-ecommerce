@@ -9,7 +9,8 @@ def counter(request):
         return {}
     else:
         try:
-            cart        = Cart.objects.filter(cart_id = _cart_id(request))
+            hy = _cart_id(request)
+            cart = Cart.objects.filter(cart_id = hy)
             if request.user.is_authenticated:
                 cart_items   = Cart_Item.objects.all().filter(user = request.user)
             else:

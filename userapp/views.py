@@ -76,9 +76,10 @@ def userpage(request):
         elif p_offer == c_offer == 0 :
             product.price = product.mrp_price
             product.save()
-
-    cartitem = Cart_Item.objects.filter(cart__cart_id = _cart_id(request))
-    print("cart item in userpage")
+    # breakpoint()
+    hy = _cart_id(request)
+    cartitem = Cart_Item.objects.filter(cart__cart_id = hy)
+    print("cart item in userpage!")
     wishlist = Wishlist.objects.all()
     product_offer=ProductOffer.objects.all()
     category_offer=CategoryOffer.objects.all()
@@ -95,7 +96,7 @@ def userpage(request):
     
     return render(request,'userindex.html',context)
   
-from django.core.paginator import EmptyPage , PageNotAnInteger , Paginator
+from django.core.paginator import  Paginator
 @never_cache
 def userproductgrid(request):
     product = Product.objects.all()
@@ -253,12 +254,14 @@ def edituserprofile(request):
     context['form'] = form
     return render(request,'edituserprofile.html',context)
     
-@never_cache
+
 def _cart_id(request):
     cart = request.session.session_key
     if not cart:
         cart = request.session.create()
     return cart
+
+
 from django.db.models import Count
 
 
