@@ -511,7 +511,26 @@ def addcatoffer(request):
             'form' : form
         }
         return render(request,'addcatoffer.html',context)
-
+@never_cache
+def addprooffer(request):
+    if request.method == 'POST':
+        form = ProductOfferForm(request.POST)
+        if form.is_valid():
+            prooff = form.save()
+            messages.success(request,"Product offer created succesffully")
+            return redirect('displayprooffer')
+        else:
+            form = ProductOfferForm(request.POST)
+            context = {
+                'form' : form
+            }
+            return render(request,'addprooffer.html',context)
+    else:
+        form = ProductOfferForm(request.POST)
+        context = {
+            'form' : form
+        }
+        return render(request,'addprooffer.html',context)
 
 @never_cache
 def editcatoffer(request,id):

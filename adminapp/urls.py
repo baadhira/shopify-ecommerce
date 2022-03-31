@@ -30,6 +30,7 @@ urlpatterns = [
      path('deletecoupon/<str:id>',views.deletecoupon,name="deletecoupon"),
      path('displaycatoffer/',views.displaycatoffer,name="displaycatoffer"),
      path('addcatoffer/',views.addcatoffer,name="addcatoffer"),
+     path('addprooffer/',views.addprooffer,name="addprooffer"),
      path('editcatoffer/<str:id>',views.editcatoffer,name="editcatoffer"),
      path('deletecatoffer/<str:id>',views.deletecatoffer,name="deletecatoffer"),
      path('displayprooffer/',views.displayprooffer,name="displayprooffer"),
