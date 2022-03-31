@@ -680,7 +680,7 @@
                             <div class="product-info">
                                 <span class="category">{{i.product_id.category}}</span>
                                 <h4 class="title">
-                                    <a href="product-grids.html">{{i.product_id.product_name}}</a>
+                                    <a href="{% url 'userproductdetails' i.id %}">{{i.product_id.product_name}}</a>
                                 </h4>
                                 
                                 <div class="price">
