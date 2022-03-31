@@ -13,6 +13,7 @@ urlpatterns = [
     path('blockuser/<str:id>',views.blockuser,name="blockuser"),
     path('addcategory/',views.addcategory,name="addcategory"),
     path('getcategory/',views.getcategory,name="getcategory"),
+    path('editcategory/<str:id>',views.editcategory,name="editcategory"),
     path('deletecategory/<str:id>',views.deletecategory,name="deletecategory"),
     path('adminlogin',views.adminlogin,name="adminlogin"),
     path('adminlogout',views.adminlogout,name="adminlogout"),
