@@ -443,7 +443,7 @@ def add_cart_ajax(request):
     #     pass
     # return JsonResponse({'success':"Item successfully Removed"})
 
-    
+@login_required(login_url='userlogin') 
 @never_cache
 def cart(request,total=0,quantity=0,cart_items=None):
     try:
@@ -470,7 +470,7 @@ def cart(request,total=0,quantity=0,cart_items=None):
     }
     return render(request,'cart.html',context)
 
-    
+@login_required(login_url='userlogin')
 @never_cache  
 def add_cart(request,id):
     print("entereddd add_cart......................")
