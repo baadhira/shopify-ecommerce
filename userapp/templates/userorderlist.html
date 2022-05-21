@@ -1,65 +1,6 @@
 {% extends 'baseuser.html' %} {% load crispy_forms_tags %} {% block content %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- <div class="table-responsive">
-    <table class="table table-custom table-lg mb-0" id="product">
-        <thead>
-            <tr>
-                <th>
-                    <input class="form-check-input select-all" type="checkbox"
-                        data-select-all-target="#product" id="defaultCheck1">
-                </th>
-                <th>ID</th>
-                <th>Photo</th>
-                <th>Name</th>
-                <th>Stock</th>
-                <th>Price</th>
-                <th>Catogery</th>
-                <th class="text-end">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
 
-            {% for i in product %}
-            <tr>
-                <td>
-                    <input class="form-check-input" type="checkbox">
-                </td>
-                <td>
-                    <a href="#">#{{i.id}}</a>
-                </td>
-                <td>
-                    {% if i.product_image1 %}
-                        <img src="{{i.product_image1.url}}"  class="rounded" width="40">
-                    {% endif %}
-                    
-                </td>
-                <td>{{i.product_name}}</td>
-                <td>
-                    <span class="text-success">{{i.stocks}}</span>
-                </td>
-                <td>₹{{i.price}}</td>
-                <td>{{i.category}}</td>
-                <td class="text-end">
-                    <div class="d-flex">
-                        <div class="dropdown ms-auto">
-                            <a href="#" data-bs-toggle="dropdown" class="btn btn-floating"
-                                aria-haspopup="true" aria-expanded="false">
-                                <i class="bi bi-three-dots"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <a href="{% url 'editproduct' i.id %}" class="dropdown-item">Edit</a>
-                                <a href="{% url 'deleteproduct' i.id %}" class="dropdown-item">Delete</a>
-                               
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-
-        </tbody>
-    </table>
-</div> -->
 <div class="container rounded bg-white mt-5">
 
 </div>
@@ -151,13 +92,13 @@
                     <div class="padding-top:10;">
                         {% if one_product.user_cancelled != "True" and one_product.status != "Cancelled" and one_product.status != "Delivered" %}
 
-                        <a class="btn text-left cancel_product" data-id="{{one_product.id}}" style="background-color: red;color:white;">Cancel Order</a> {% endif %}
+                        <a class="btn text-left cancel_product" data-id="{{one_product.id}}" style="background-color: rgb(255, 94, 0);color:white;">Cancel Order</a> {% endif %}
                         {% if one_product.user_cancelled != "True" and one_product.status != "Cancelled" and one_product.status == "Delivered" %}
 
                         <a class="btn text-left cancel_product" data-id="{{one_product.id}}" style="background-color: red;color:white;">Return Order</a> {% endif %}
 
 
-                        <a class="btn text-right" href="{% url 'userproductdetails' one_product.product.id %}" style="background-color: #ff4500;color:white;">Order Again</a>
+                        <a class="btn text-right" href="{% url 'userproductdetails' one_product.product.id %}" style="background-color: #0099ff;color:white;">Order Again</a>
                     </div>
                 </div>
             </div>

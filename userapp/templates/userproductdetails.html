@@ -69,11 +69,18 @@
                     <div class="product-info">
                         <h2 class="title">{{obj.product_name}}</h2>
                         <p class="category"><i class="lni lni-tag"></i> {{obj.category}}</a></p>
+                        {% if obj.discount_percentage %}
+                        <span class="sale-tag">{{obj.discount_percentage}}%</span>
+                        {% endif %}
                         {% if obj.price < obj.mrp_price and obj.price != 0  %}
                         <span style="color : black;">₹{{obj.price}}</span>
                         <span>&nbsp;</span><span style="text-decoration: line-through; color:#696969 ; font-size: 0.8rem;" >₹{{obj.mrp_price}}</span>
                         {% else %}
                         <span style="color : black;">₹{{obj.mrp_price}}</span>
+                        {% endif %} 
+                        {% if obj.discount_percentage  %}
+                        <span style="color : black;">{{obj.discount_percentage}}%</span>
+                      
                         {% endif %}
                         <p class="info-text">{{obj.description}}</p>
                         <!-- <div class="row">
@@ -128,16 +135,20 @@
                                         {% if obj.stocks <= 0 %}
                                         <h5 class=text-danger style="padding: 10px;">Out Of Stock</h5>
                                         {% else %}
-                                       <a href="{% url 'add_cart' obj.id %}"> <button  class="btn btn-primary" style="width: 100%;"><i class="lni lni-cart"></i>Add to Cart</button></a>
+                                       <a href="{% url 'add_cart' obj.id %}"> <button  class="btn btn-primary" style="width: 100%; padding: 10px;"><i class="lni lni-cart"></i>Add to Cart</button></a>
                                         {% endif %}
                                     </div>
                                 </div>
                                
                                 <div class="col-lg-4 col-md-4 col-12">
                                     <div class="wish-button">
-                                        <button class="btn"  id="hmAddtoWishlistBtn"  onclick="wishList('{{obj.id}}')"><i class="lni lni-heart"></i>
-                                            To Wishlist</button>
+                                        {% if obj.id in p %}
+                                    <button class="btn"  id="hmAddtoWishlistBtn"   onclick="removeWishItem('{{obj.id}}')" >  <i class="fa fa-heart" ></i>   In Wish   </button>
+                                    {% else %}
+                                    <button class="btn"  id="hmAddtoWishlistBtn"   onclick="wishList('{{obj.id}}')" >  <i class="fa fa-heart" ></i>  Add to Wish    </button>
+                                    {% endif %}
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -466,6 +477,88 @@
   <script>
     $(".xzoom, .xzoom-gallery").xzoom({tint: '#333', Xoffset: 15});
   </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.6.1/toastify.js" integrity="sha512-MnKz2SbnWiXJ/e0lSfSzjaz9JjJXQNb2iykcZkEY2WOzgJIWVqJBFIIPidlCjak0iTH2bt2u1fHQ4pvKvBYy6Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.6.1/toastify.css" integrity="sha512-VSD3lcSci0foeRFRHWdYX4FaLvec89irh5+QAGc00j5AOdow2r5MFPhoPEYBUQdyarXwbzyJEO7Iko7+PnPuBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script>
+
+    function wishList(id){  
+        console.log("entered wishlist");      
+        var data  = {'id': id,  "csrf_token": '{{csrf_token}}'} 
+        console.log("entered wish func")
+        $.ajax({
+            url : "{% url 'add_wishlist'  %}",
+            method: "POST",
+            data : data,
+            success : function(data){
+                
+                let msg = data.success
+                let quantity = data.wish_items
+                let errorMsg = data.error
+                if(msg && quantity ){
+                    window.location.reload();
+                    Toastify({    
+                        text: "Item added to wishlist",
+                        duration: 3000,
+                        style: {
+                            background: "linear-gradient(to right, #696969 , #ffa500)",
+                          }
+                        }).showToast();
+                        
+                }else{
+                    swal({
+                        position :'top-end',
+                        icon: "error",
+                        text: "you must be logged in to add products to whishlist",
+                        timer:3000
+                      });
+                }
+                
+            }
+        })
+    }
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function removeWishItem(prod_id){
+  var data = { 'prodId' : prod_id }	
+console.log('data of remove wish item',data)
+  Swal.fire({
+    title: 'Remove Item?',
+    text: "Are you sure want to remove this? You will not be able to revert this..",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Remove Item'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({		
+        method: "GET",
+        url: "{% url 'remove_wish_item' %}",
+        data : data,
+        success:function(response){
+      console.log('removed successfully')
+
+          Swal.fire(
+            'Item removed',
+            'Item has been successfully removed from cart.',
+            'success'
+          )
+        location.reload();
+
+        }
+      })
+     
+    }
+  })
+}
+</script>
 {% endblock %}
 
 

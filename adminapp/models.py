@@ -13,6 +13,7 @@ from django.forms import BooleanField, DateTimeField
 from django.core.validators import MinValueValidator, MaxValueValidator
 import datetime
 from django.urls.converters import SlugConverter
+from django.conf import settings
 # Create your models here.
 class Userreg(AbstractUser):
     phoneno=models.CharField(max_length=11,null=True)
@@ -46,17 +47,32 @@ class Product(models.Model):
     descriptiontwo = models.TextField(blank=True,null=True)
     descriptionthree = models.TextField(blank=True,null=True)
     descriptionfour = models.TextField(blank=True,null=True)
-    discount_percentage = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)], null=True,blank=True)
     mrp_price           = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
     is_available        = models.BooleanField(default=True,null=True)
     created_date        = models.DateTimeField(auto_now_add=True,null=True)
     modiified_date      = models.DateTimeField(auto_now=True,null=True)
+    users_wishlist=models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='user_wishlist',blank=True)
     # sub_category = models.ForeignKey(Subcategory,on_delete=models.CASCADE,blank=True)
 
     def __str__(self):
-        return str(self.stocks)
+        return str(self.id)
    
+class ProductOffer(models.Model):
+    product_id      = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True, blank=True)
+    code            = models.CharField(max_length=50, unique=True)
+    valid_from      = models.DateTimeField()
+    valid_to        = models.DateTimeField()
+    discount        = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(75)])
+    is_active       = models.BooleanField()
 
+    def __str__(self):
+        return str(self.product_id)
+    
+    def disc_product_price(self):
+        original_price = self.product_id.price
+        disc_price = original_price - (original_price*(self.discount/100))
+        return disc_price
+   
 
 # class PostImage(models.Model):
 #     post = models.ForeignKey(Product,on_delete=models.CASCADE)
@@ -297,25 +313,10 @@ class Wishlist(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
-        return self.product
-
-class ProductOffer(models.Model):
-    product_id      = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True, blank=True)
-    code            = models.CharField(max_length=50, unique=True)
-    valid_from      = models.DateTimeField()
-    valid_to        = models.DateTimeField()
-    discount        = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(75)])
-    is_active       = models.BooleanField()
-
     def __str__(self):
-        return self.code
-    
-    def disc_product_price(self):
-        original_price = self.product_id.price
-        disc_price = original_price - (original_price*(self.discount/100))
-        return disc_price
-   
+        return str(self.product.id)
+
+
 
 class CategoryOffer(models.Model):
     category_id     = models.ForeignKey(Category,on_delete=models.SET_NULL,null=True, blank=True)

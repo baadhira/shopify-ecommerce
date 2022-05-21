@@ -33,28 +33,28 @@
         <input type="text" id="couponInp" class="form-control w-100">
         <span id="couponAlert" style="color:orange;" class="text-center"></span>
         <span id="couponSuccessAlert" style="color:green;" class="text-center"></span>
-        <button onclick="claimCoupon()" class="btn w-100 btn-primary btn-block" id="claimButton">Claim Coupons</button>
-      </div>
+        <button onclick="claimCoupon()" class="btn w-100 btn-primary btn-block mb-5" id="claimButton">Claim Coupons</button>
 
 
+       <div class="border-box"  style="
+       box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+       padding: 30px 30px 20px 20px;">
+       <h4 class="text-center">Payments</h4>
+        <a href="{% url 'codorder' order.order_number %}" type="submit"
+        class="btn btn-primary w-100 mt-5 mb-2">Cash on delivery </a>
 
 
-      <div class="card-body">
-
-
-        <div id="paypal-button-container" class="position-relative">
-
-
-          <a href="{% url 'codorder' order.order_number %}" type="submit"
-            class="btn btn-primary mb-2 w-100">Cash on delivery </a>
-
-
-          <button value={{order.order_number}} class="btn btn-primary btn-block w-100 mb-2 "
-            id="rzp-button1">Pay with Razorpay</button>
-
-
+      <button value={{order.order_number}} class="btn btn-primary btn-block w-100 mb-2 "
+        id="rzp-button1">Pay with Razorpay</button>
+        <div id="paypal-button-container" class="p-0 w-100">
         </div>
+       </div>
+  
       </div>
+
+   
+
+    
     </div>
 
   </div>

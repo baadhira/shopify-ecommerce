@@ -9,7 +9,7 @@
             class="container d-flex align-items-center justify-content-center h-100 flex-column flex-md-row text-center text-md-start">
             
             <div class="ms-md-auto">
-                <a href="{% url 'addaddress' %}" class="btn btn-primary btn-lg btn-icon">
+                <a href="{% url 'addaddressprofile' %}" class="btn btn-primary btn-lg btn-icon">
                     <i class="bi bi-pencil small"></i> Add Address
                 </a>
             </div>
@@ -22,16 +22,16 @@
                 <div class="card-body">
                     <ul class="nav nav-pills flex-column gap-2">
                         <li class="nav-item">
-                            <a class="nav-link " href="buyer-dashboard.html">Dashboard</a>
+                            <a class="nav-link " href="{% url 'userprofilehome' %}">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="buyer-orders.html">My Orders</a>
+                            <a class="nav-link " href="{% url 'userorderlist' %}">My Orders</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link  active " href="buyer-addresses.html">My Addresses</a>
+                            <a class="nav-link  active " href="">My Addresses</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="buyer-wishlist.html">Wishlist</a>
+                            <a class="nav-link " href="{% url 'wishlist' %}">Wishlist</a>
                         </li>
                     </ul>
                 </div>

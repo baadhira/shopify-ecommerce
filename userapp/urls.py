@@ -19,6 +19,8 @@ urlpatterns = [
     path('remove_cart_ajax/',views.remove_cart_ajax,name='remove_cart_ajax'),
     path('remove_cart_item/',views.remove_cart_item,name='remove_cart_item'),
     path('addaddress/',views.addaddress,name='addaddress'),
+    path('addaddressprofile/',views.addaddressprofile,name='addaddressprofile'),
+
     path('getaddress/',views.getaddress,name='getaddress'),
     path('deleteaddress/<str:id>',views.deleteaddress,name='deleteaddress'),
     path('checkout/',views.checkout,name='checkout'),
@@ -40,12 +42,15 @@ urlpatterns = [
     path('hightolow/',views.hightolow,name='hightolow'),
     path('lowtohigh/',views.lowtohigh,name='lowtohigh'),
     path('editaddress/<str:id>',views.editaddress,name='editaddress'),
-
+# addaddressprofile
    
     path('user_order_return/',views.user_order_return,name='user_order_return'),
     path('wishlist/',views.wishlist,name='wishlist'),
     path('remove_wish_item/',views.remove_wish_item, name='remove_wish_item'),
+    path('deletewishlist/',views.deletewishlist, name='deletewishlist'),
+
     path('ordersuccess/',views.ordersuccess, name='ordersuccess'),
     path('add_wishlist/',views.add_wishlist,name='add_wishlist'),
     path('search/',views.search,name='search'),
+     path('wish-list/',views.addWishList,name='wish-list'),
 ]

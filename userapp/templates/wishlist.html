@@ -19,14 +19,14 @@
       <div class="row align-items-center">
         <div class="col-lg-6 col-md-6 col-12">
           <div class="breadcrumbs-content">
-            <h1 class="page-title">Cart</h1>
+            <h1 class="page-title">Wishlist</h1>
           </div>
         </div>
         <div class="col-lg-6 col-md-6 col-12">
           <ul class="breadcrumb-nav">
             <li><a href="{% url 'userpage' %}"><i class="lni lni-home"></i> Home</a></li>
             <li><a href="{% url 'userpage' %}">Shop</a></li>
-            <li>Cart</li>
+            <li>Wishlist</li>
           </ul>
         </div>
       </div>
@@ -40,7 +40,7 @@
 
         <div class="cart-list-title">
           {% if not wishlist_items %}
-          <h2 class="text-center">Your wishlist is empty</h2>
+          <h4 style="color:grey;" class="text-center">Your wishlist is empty</h4>
           <br>
           <br>
           <br>
@@ -92,120 +92,10 @@
        
 
 
-        <!-- <div class="cart-single-list">
-          <div class="row align-items-center">
-            <div class="col-lg-1 col-md-1 col-12">
-              <a href="product-details.html"><img
-                  src="assets/images/cart/02.jpg" alt="#"></a>
-            </div>
-            <div class="col-lg-4 col-md-3 col-12">
-              <h5 class="product-name"><a href="product-details.html">
-                  Apple iPhone X 256 GB Space Gray</a></h5>
-              <p class="product-des">
-                <span><em>Memory:</em> 256 GB</span>
-                <span><em>Color:</em> Space Gray</span>
-              </p>
-            </div>
-            <div class="col-lg-2 col-md-2 col-12">
-              <div class="count-input">
-                <select class="form-control">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-lg-2 col-md-2 col-12">
-              <p>$1100.00</p>
-            </div>
-            <div class="col-lg-2 col-md-2 col-12">
-              <p>—</p>
-            </div>
-            <div class="col-lg-1 col-md-2 col-12">
-              <a class="remove-item" href="javascript:void(0)"><i class="lni
-                  lni-close"></i></a>
-            </div>
-          </div>
-        </div>
-        <div class="cart-single-list">
-          <div class="row align-items-center">
-            <div class="col-lg-1 col-md-1 col-12">
-              <a href="product-details.html"><img
-                  src="assets/images/cart/03.jpg" alt="#"></a>
-            </div>
-            <div class="col-lg-4 col-md-3 col-12">
-              <h5 class="product-name"><a href="product-details.html">HP
-                  LaserJet Pro Laser Printer</a></h5>
-              <p class="product-des">
-                <span><em>Type:</em> Laser</span>
-                <span><em>Color:</em> White</span>
-              </p>
-            </div>
-            <div class="col-lg-2 col-md-2 col-12">
-              <div class="count-input">
-                <select class="form-control">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-lg-2 col-md-2 col-12">
-              <p>$550.00</p>
-            </div>
-            <div class="col-lg-2 col-md-2 col-12">
-              <p>—</p>
-            </div>
-            <div class="col-lg-1 col-md-2 col-12">
-              <a class="remove-item" href="javascript:void(0)"><i class="lni
-                  lni-close"></i></a>
-            </div>
-          </div>
-        </div> -->
+        
 
       </div>
-      <!-- <div class="row">
-        <div class="col-12">
-
-          <div class="total-amount">
-            <div class="row">
-              <div class="col-lg-8 col-md-6 col-12">
-                <div class="left">
-                  <div class="coupon">
-                    
-                    <form action="#" target="_blank">
-                      <input name="Coupon" placeholder="Enter Your Coupon">
-                      <div class="button">
-                        <button class="btn">Apply Coupon</button>
-                      </div>
-                     
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-6 col-12">
-                <div class="right">
-                  <ul>
-                    <li>Cart Subtotal<span>₹{{total}}</span></li>
-                    <li>Shipping<span>Free</span></li>
-                    <li>You Save<span>$29.00</span></li>
-                    <li class="last">You Pay<span>₹{{grand_total}}</span></li>
-                  </ul>
-                  <div class="button">
-                    <a href="{% url 'placeorder' %}" class="btn">Checkout</a>
-                    <a href="{% url 'userproductgrid' %}" class="btn btn-alt">Continue Shopping</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div> -->
+      
     </div>
     {% endif %}
   </div>
@@ -214,6 +104,7 @@
 <script>
   function removeWishItem(prod_id){
 	var data = { 'prodId' : prod_id }	
+  console.log('data of remove wish item',data)
 	Swal.fire({
 	  title: 'Remove Item?',
 	  text: "Are you sure want to remove this? You will not be able to revert this..",
@@ -229,6 +120,7 @@
 		  url: "{% url 'remove_wish_item' %}",
 		  data : data,
 		  success:function(response){
+        console.log('removed successfully')
   
 			Swal.fire(
 			  'Item removed',

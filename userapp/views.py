@@ -66,7 +66,7 @@ def userpage(request):
         if p_offer>c_offer:
             disc_price = product.mrp_price - (product.mrp_price * p_offer)/100
             product.price = round(disc_price,2)
-            product.discount_percentage = c_offer
+            product.discount_percentage = p_offer
             product.save()
         elif p_offer == c_offer and p_offer != 0:
             disc_price = product.mrp_price - (product.mrp_price * p_offer)/100
@@ -80,17 +80,36 @@ def userpage(request):
     hy = _cart_id(request)
     cartitem = Cart_Item.objects.filter(cart__cart_id = hy)
     print("cart item in userpage!")
-    wishlist = Wishlist.objects.all()
+    if request.user.is_authenticated:
+        wishlist = Wishlist.objects.filter(user=request.user)
+        print("home wishlist",wishlist)
+        p = []
+        for i in wishlist:
+           p.append(i.product.id)
+        print(p)
+    else:
+        messages.error(request,'no data')  
+   
     product_offer=ProductOffer.objects.all()
     category_offer=CategoryOffer.objects.all()
+    print("home products",products)
+    print("productoffer home",product_offer)
+    r = []
+    for i in product_offer:
+        r.append(i.product_id.id)
+    print(r)
+
     context = {
         'products':products,
         'cartitem' :cartitem,
         'wishlist' : wishlist,
         'banners' : banners,
+        # 'wish':wish,
         'catogeries':catogeries,
         'product_offer' : product_offer,
-        'category_offer' : category_offer
+        'category_offer' : category_offer,
+        'p':p,
+        'r':r
 
     }
     
@@ -101,16 +120,46 @@ from django.core.paginator import  Paginator
 def userproductgrid(request):
     product = Product.objects.all()
     catogeries = Category.objects.all().annotate(numpro=Count('product'))
+    if request.user.is_authenticated:
+        wishlist = Wishlist.objects.filter(user=request.user)
+        print("home wishlist",wishlist)
+        p = []
+        for i in wishlist:
+           p.append(i.product.id)
+        print(p)
+    else:
+        messages.error(request,'no data') 
 
     paginator = Paginator(product, 4)
     page = request.GET.get('page')
     paged_products = paginator.get_page(page)
     context = {
         'product' : paged_products,
-        'catogeries' : catogeries
+        'catogeries' : catogeries,
+        'wishlist':wishlist,
+        'p':p
     }
     return render(request,'product-grids.html',context)
 
+
+def userproductdetails(request,id):
+    obj = Product.objects.get(id=id)
+    if request.user.is_authenticated:
+        wishlist = Wishlist.objects.filter(user=request.user)
+        print("home wishlist",wishlist)
+        p = []
+        for i in wishlist:
+           p.append(i.product.id)
+        print(p)
+    else:
+        messages.error(request,'no data') 
+    print("userproductdetails............",obj)
+    context = {
+        'obj':obj,
+        'wishlist':wishlist,
+        'p':p
+    }
+    return render(request,'userproductdetails.html',context)
 
 @never_cache
 
@@ -226,9 +275,20 @@ def userlogout(request):
 @never_cache
 def userproductdetails(request,id):
     obj = Product.objects.get(id=id)
+    if request.user.is_authenticated:
+        wishlist = Wishlist.objects.filter(user=request.user)
+        print("home wishlist",wishlist)
+        p = []
+        for i in wishlist:
+           p.append(i.product.id)
+        print(p)
+    else:
+        messages.error(request,'no data') 
     print("userproductdetails............",obj)
     context = {
-        'obj':obj
+        'obj':obj,
+        'wishlist':wishlist,
+        'p':p
     }
     return render(request,'userproductdetails.html',context)
 
@@ -505,11 +565,20 @@ def add_cart(request,id):
     
 @never_cache
 def remove_wish_item(request):
-    product_id =request.GET['prodId']
-    wishlist_item = Wishlist.objects.get(product = product_id)
-    wishlist_item.delete()
-    return JsonResponse({'success':'Item successfully Removed'})
+    if request.user.is_authenticated:
+
+        print("entered remove wishlist_item")
+        product_id =request.GET['prodId']
+        print('product id remove wish',product_id)
+        wishlist_item = Wishlist.objects.get(user=request.user,product = product_id)
+        wishlist_item.delete()
+        return JsonResponse({'success':'Item successfully Removed'})
     
+def deletewishlist(request):
+    if request.user.is_authenticated:
+        user=request.user
+        Wishlist.objects.filter(user_id=user.id,product=Product.objects.get(id=id)).delete()
+        return JsonResponse({'success':'Item successfully Removed'})
 
 
 
@@ -524,7 +593,7 @@ def remove_wish_item(request):
     
     
 @never_cache
-def addaddress(request):
+def addaddressprofile(request):
     addressconst=   Address.objects.filter(user=request.user)
     user=request.user
     if request.method == 'POST':
@@ -1336,7 +1405,41 @@ def add_wishlist(request):
         'wishlist_items': wishlist_items,
     }
     return render (request, 'wishlist.html',context)
-    
+
+
+
+
+def addWishList(request):
+    if request.user.is_authenticated:
+        user = request.user
+        if request.method == 'POST':
+            productId = request.POST.get('wish_product')
+            action = request.POST.get('wish_action')
+            product = Product.objects.get(id=productId)
+            if action == 'add_wish':
+                wishlist = Wishlist.objects.get_or_create(wish_user=user,wish_product=product)
+                result = 'added'
+                status = 'added to'
+                msg = 'success'
+            elif action == 'remove_wish':
+                wishlist = Wishlist.objects.get(wish_user=user,wish_product=product)
+                wishlist.delete()
+                result = 'removed'
+                status = 'removed from'
+                msg = 'error'
+        data = {'result':result,'productId':productId,'status':status,'msg':msg}
+    return JsonResponse(data)
+
+
+def myWishList(request):
+    user = request.user
+    products = Wishlist.objects.filter(wish_user=user)
+    counts = products.count()
+    order = Order.objects.get(user = user,order_status=False)
+    wish = [i.wish_product for i in  Wishlist.objects.filter(wish_user=user)]
+    return render(request,'fitness/mywishlist.html',{'products':products,'wish':wish,'counts':counts,'order':order})
+
+
 @never_cache
 def ordersuccess(request):
     return render(request,'ordersucess.html')
