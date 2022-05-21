@@ -88,7 +88,8 @@ def userpage(request):
            p.append(i.product.id)
         print(p)
     else:
-        messages.error(request,'no data')  
+        wishlist='' 
+        p=''
    
     product_offer=ProductOffer.objects.all()
     category_offer=CategoryOffer.objects.all()
