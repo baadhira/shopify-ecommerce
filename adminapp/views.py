@@ -64,7 +64,6 @@ def addproduct(request):
         form = Productform(request.POST,request.FILES)
         if form.is_valid():
             product = form.save()
-            messages.success(request,"Product added successfully")
             return redirect('getproduct')
         else:
             form = Productform(request.POST,request.FILES)
@@ -152,7 +151,6 @@ def addcategory(request):
         form = CategoryForm(request.POST)
         if form.is_valid():
             cat = form.save()
-            messages.success(request,'Category created successfully')
             return redirect('getcategory')
         else:
             form = CategoryForm(request.POST)
@@ -295,7 +293,6 @@ def addCoupon(request):
         form = CouponApplyForm(request.POST)
         if form.is_valid():
             coupon = form.save()
-            messages.success(request,'Coupon created successfully')
             return redirect('displaycoupon')
         else:
             form = CouponApplyForm(request.POST)
@@ -497,7 +494,6 @@ def addcatoffer(request):
         form = CategoryOfferForm(request.POST)
         if form.is_valid():
             catoff = form.save()
-            messages.success(request,"Category offer created succesffully")
             return redirect('displaycatoffer')
         else:
             form = CategoryOfferForm(request.POST)
@@ -517,7 +513,7 @@ def addprooffer(request):
         form = ProductOfferForm(request.POST)
         if form.is_valid():
             prooff = form.save()
-            messages.success(request,"Product offer created succesffully")
+           
             return redirect('displayprooffer')
         else:
             form = ProductOfferForm(request.POST)

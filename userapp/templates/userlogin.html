@@ -2,15 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div style="max-width: 300px;margin: auto;">
-   {% for message in messages %}
-<div class="alert {{ message.tags }} alert-dismissible fade show msg-tag" role="alert">
-    {{ message | safe }}
-    <button type="button" class="close msg-close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-</div>
 
-{% endfor %}
 <div class="d-flex align-items-center"  style=" height: 400px;">
     <form action="{% url 'userlogin' %}" method="POST" novalidate>
         {% csrf_token %}

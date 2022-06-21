@@ -11,6 +11,16 @@
      <button type="submit" style="margin-bottom: 10px;" class="btn btn-primary"name="Coupon end date" >Add Coupon</button>
     </form>
  </div>
+ {% for message in messages %}
+ <div class="alert {{ message.tags }} alert-dismissible fade show msg-tag" role="alert">
+     {{ message | safe }}
+     <button type="button" class="close msg-close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+       </button>
+ </div>
+ 
+ {% endfor %}
+
 
  <script>
      $('input[name="daterangepicker"]').daterangepicker({

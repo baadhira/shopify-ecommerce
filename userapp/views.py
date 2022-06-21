@@ -176,10 +176,8 @@ def usersignup(request):
             request.session['phoneno'] = user.phoneno
             print('username',user.username)
             
-            messages.success(request,"User registered successfully")
             return redirect('userotp') 
         else:
-            messages.error(request,'Invalid credentials')
             form=CustomUserCreationForm(request.POST)
             context = {
             'form' : form
@@ -212,8 +210,7 @@ def userotp(request):
                             .create(to=phoneno, code=otpgiven)
             print(verification_check.status)
         else:
-            messages.error(request,"Enter a valid OTP!")
-            return render(request, 'otp_verfication.html')
+            return redirect(userotp)
         if (verification_check.status == 'approved'):
             user = Userreg.objects.get(username=username)
             print(user)
@@ -245,7 +242,6 @@ def userlogin(request):
         username = request.POST['username']
         password = request.POST['password']
         if username == '' and password == '':
-            messages.error(request,"enter valid data")
             return redirect('userlogin')
         
         user = authenticate(username=username,password=password)
@@ -314,7 +310,7 @@ def edituserprofile(request):
             form.save()
             return redirect('userprofilehome')
         else:
-            messages.error(request,"Invalid data")
+            pass
     context['form'] = form
     return render(request,'edituserprofile.html',context)
     
@@ -358,14 +354,12 @@ def contacts(request):
             try:
                 send_mail(name, message, email, ['baadhiraabdulla5@gmail.com'])
             except BadHeaderError:
-                messages.error(request,'Invalid header found')
                 return redirect('contacts')
             messages.success(request,"Form submitted successfully")
             return redirect('contacts')
         else:
         # In reality we'd use a form class
         # to get proper validation errors.
-            messages.error("Make sure all fields are entered and valid.")
             return redirect('contacts')
 
     return render (request,"contact.html")
@@ -609,7 +603,6 @@ def addaddressprofile(request):
             address.user = request.user
             address.save()
             
-            messages.success(request,"Address added sucsessfully")
             return redirect('getaddress')
         else:
             form = AddressForm(request.POST)
@@ -661,7 +654,7 @@ def editaddress(request,id):
             form.save()
             return redirect('getaddress')
         else:
-            messages.error(request,"Invalid data")
+            pass
     context['form'] = form
     return render(request,'editaddress.html',context)
 
@@ -724,7 +717,6 @@ def addaddress(request):
             address.user = request.user
             address.save()
             
-            messages.success(request,"Address added sucsessfully")
             return redirect('placeorder')
         else:
             form = AddressForm(request.POST)
@@ -751,7 +743,6 @@ def placeorder(request,total=0,quantity=0):
         address_id = request.POST['address']
     except:
         print("addres id : erroeeeeeeeeeeeeeee")
-        messages.error(request,'Please select a billing address')
         return redirect('checkout')
     print("adress gotttttttttttttttttttttttttt")
     current_user= request.user
@@ -903,7 +894,6 @@ def codorder(request,order_number,total=0,quantity=0):
             order.order_total = total_after_coupon
             order.coupon_use_status = True
             order.save()
-            print("order_toAL.......",order_total)
             payment = Payment.objects.create(user=request.user,payment_method = "COD" ,amount_paid = order.order_total,payment_id = order.id)
             
             order.payment = payment
@@ -1402,7 +1392,6 @@ def add_wishlist(request):
                 error = "error"
                 return JsonResponse({'error':error })
     else:
-        messages.error(request,"please login!!")
         return redirect('userlogin')
     wishlist_items = Wishlist.objects.filter(user = request.user)
     context = {
