@@ -129,7 +129,8 @@ def userproductgrid(request):
            p.append(i.product.id)
         print(p)
     else:
-        messages.error(request,'no data') 
+        wishlist='' 
+        p=''
 
     paginator = Paginator(product, 4)
     page = request.GET.get('page')
@@ -153,7 +154,8 @@ def userproductdetails(request,id):
            p.append(i.product.id)
         print(p)
     else:
-        messages.error(request,'no data') 
+        wishlist='' 
+        p=''
     print("userproductdetails............",obj)
     context = {
         'obj':obj,
@@ -284,7 +286,8 @@ def userproductdetails(request,id):
            p.append(i.product.id)
         print(p)
     else:
-        messages.error(request,'no data') 
+        wishlist='' 
+        p=''
     print("userproductdetails............",obj)
     context = {
         'obj':obj,
@@ -1429,6 +1432,8 @@ def addWishList(request):
                 status = 'removed from'
                 msg = 'error'
         data = {'result':result,'productId':productId,'status':status,'msg':msg}
+    else:
+        return redirect(userlogin)
     return JsonResponse(data)
 
 
