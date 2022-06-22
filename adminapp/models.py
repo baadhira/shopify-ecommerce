@@ -17,7 +17,7 @@ from django.conf import settings
 # Create your models here.
 class Userreg(AbstractUser):
     phoneno=models.CharField(max_length=11,null=True)
-    adminstatus=models.BooleanField(blank=True,default=False,null=True)
+    adminstatus=models.BooleanField(blank=True,default=False)
 
 
 
@@ -48,7 +48,7 @@ class Product(models.Model):
     descriptionthree = models.TextField(blank=True,null=True)
     descriptionfour = models.TextField(blank=True,null=True)
     mrp_price           = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
-    is_available        = models.BooleanField(default=True,null=True)
+    is_available        = models.BooleanField(default=True)
     created_date        = models.DateTimeField(auto_now_add=True,null=True)
     modiified_date      = models.DateTimeField(auto_now=True,null=True)
     users_wishlist=models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='user_wishlist',blank=True)
@@ -198,7 +198,7 @@ class Order(models.Model):
     is_ordered = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at = models.DateTimeField(auto_now = True,blank=True,null=True)
-    coupon_use_status     = models.BooleanField(default=False,null=True)
+    coupon_use_status     = models.BooleanField(default=False)
     coupon = models.ForeignKey(CouponCode,null=True,on_delete=models.SET_NULL, blank=True)
     discount_amount = models.FloatField(null=True,blank=True)
     nett_paid       = models.FloatField(null=True,blank=True)
